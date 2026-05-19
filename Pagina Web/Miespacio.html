@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serena - Mi espacio</title>
+    <link class="rounded" rel="icon" type="image/png" href="favicon.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Volkhov:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --serena-purple: #7b61ff;
+            --serena-purple-dark: #6249e6;
+            --serena-bg: #f7f5ff;
+            --serena-light-purple: #ece8ff;
+            --serena-text: #4a4a4a;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--serena-text);
+            background-color: #ffffff;
+        }
+
+        h1, h2, h3, h4, h5, h6, .serena-title {
+            font-family: 'Volkhov', serif;
+        }
+
+        .navbar-brand {
+            font-family: 'Volkhov', serif;
+            font-size: 1.8rem;
+            color: var(--serena-purple) !important;
+        }
+
+        /* Estilos dinámicos para la barra de navegación */
+        .nav-btn-dynamic {
+            transition: all 0.3s ease;
+            color: #4a4a4a;
+            padding: 8px 16px !important;
+            border-radius: 50px;
+        }
+        .nav-btn-dynamic:hover {
+            color: var(--serena-purple);
+        }
+        .nav-pill-active {
+            background-color: #ece8ff !important;
+            color: #7b61ff !important;
+            font-weight: 500;
+            padding-left: 24px !important;
+            padding-right: 24px !important;
+        }
+
+        /* Hero Header */
+        .hero-mental {
+            background-color: var(--serena-bg);
+            border-radius: 40px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        /* ----- NUEVA CLASE PARA LOS RECTÁNGULOS DE SECCIONES ----- */
+        .section-box {
+            background-color: #faf8ff;
+            border: 1px solid #f0ecff;
+            border-radius: 32px;
+            padding: 2rem;
+            height: 100%;
+        }
+
+        /* Lista de Temas Lateral */
+        .topic-link {
+            transition: all 0.2s ease;
+            border: 1px solid #f0f0f0;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+        .topic-link:hover {
+            background-color: var(--serena-bg);
+            border-color: var(--serena-light-purple);
+            transform: translateX(5px);
+        }
+
+        /* Cuadrículas y Tarjetas */
+        .signal-card {
+            background-color: #fff;
+            border: 1px solid #f0f0f0;
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-align: center;
+            height: 100%;
+        }
+        .signal-icon {
+            font-size: 2rem;
+            color: var(--serena-purple);
+            margin-bottom: 0.8rem;
+        }
+
+        /* Mitos y Realidades */
+        .myth-box {
+            background-color: #fff5f5;
+            border-radius: 15px;
+            padding: 1rem;
+            border-left: 5px solid #ff4d4d;
+        }
+        .reality-box {
+            background-color: #f5fff5;
+            border-radius: 15px;
+            padding: 1rem;
+            border-left: 5px solid #2ec4b6;
+        }
+
+        /* Botón Serena Redondeado */
+        .btn-serena {
+            background-color: var(--serena-purple);
+            color: white;
+            border-radius: 50px;
+            padding: 10px 24px;
+            font-weight: 500;
+            border: none;
+            transition: background 0.2s;
+        }
+        .btn-serena:hover {
+            background-color: var(--serena-purple-dark);
+            color: white;
+        }
+
+        /* Banner de Apoyo Inferior */
+        .support-banner {
+            background-color: #f1edff;
+            border-radius: 32px;
+            padding: 2rem;
+        }
+    </style>
+</head>
+<body id="inicio">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 border-b sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="Logo.png" alt="Logo Serena" height="100" class="d-inline-block align-top">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto align-items-center gap-1">
+                    <li class="nav-item">
+                        <a class="nav-link nav-btn-dynamic" href="Index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-btn-dynamic" href="Serena.html">Salud Mental</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-btn-dynamic " href="Herramientas.html">Herramientas</a>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link nav-btn-dynamic dropdown-toggle" href="Apoyo.html" role="button" data-bs-toggle="dropdown">Apoyo</a>
+                        <ul class="dropdown-menu border-0 shadow-sm rounded-4">
+                            <li><a class="dropdown-item" href="#">Opción 1</a></li>
+                            <li><a class="dropdown-item" href="#">Opción 2</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li class="nav-item"><a class="nav-link nav-btn-dynamic nav-pill-active" href="Miespacio.html">Mi espacio</a></li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-3 ms-lg-auto mt-3 mt-lg-0" style="font-size: 3rem;">
+                    <a href="#" class="text-dark text-decoration-none transition-hover"><i class="bi bi-person-circle"></i></a>
+                </div>
+            </div>
+        </div>
+    </nav>
