@@ -1,0 +1,406 @@
+/* ==========================================
+           1. PALETA DE COLORES (Claro y Oscuro)
+           ========================================== */
+        :root {
+            --serena-purple: #7b61ff;
+            --serena-purple-dark: #6249e6;
+            
+            /* Colores Modo Claro */
+            --bg-body: #f8f9fc; 
+            --bg-card: #ffffff;
+            --text-main: #4a4a4a;
+            --text-muted: #8c8c8c;
+            --text-title: #2d2d2d;
+            --border-color: #f0f0f5;
+            --bg-light-purple: #f3f0ff;
+            
+            /* Elementos específicos */
+            --circle-empty: #f0f0f0;
+            --badge-green-bg: #e6f7ef;
+            --badge-pink-bg: #fce8f0;
+            --badge-yellow-bg: #fef5e5;
+            --badge-blue-bg: #e8f4fd;
+        }
+
+        [data-theme="dark"] {
+            /* Colores Modo Oscuro (Fondo muy oscuro, tarjetas morado oscuro) */
+            --bg-body: #121212; 
+            --bg-card: #1e1a34; /* <-- Color morado oscuro elegante para las tarjetas */
+            --text-main: #e2dced; /* Letras principales en un tono claro lila/gris */
+            --text-muted: #a399b8; /* Textos secundarios más suaves */
+            --text-title: #ffffff; /* Títulos en blanco brillante */
+            --border-color: #322759; /* Bordes morados sutiles */
+            --bg-light-purple: #2a244d;
+            
+            /* Elementos específicos oscurecidos */
+            --circle-empty: #333333;
+            --badge-green-bg: #142c20;
+            --badge-pink-bg: #2d1622;
+            --badge-yellow-bg: #2c2211;
+            --badge-blue-bg: #112338;
+        }
+
+        /* ==========================================
+           2. APLICACIÓN GLOBAL DE VARIABLES
+           ========================================== */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-size: 0.9rem;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        h1, h2, h3, h4, h5, h6, .serena-title {
+            font-family: 'Volkhov', serif;
+            color: var(--text-title);
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        /* CORRECCIÓN SÚPER IMPORTANTE PARA LAS TARJETAS */
+        /* Esto obliga a Bootstrap a pintar las tarjetas del color correcto */
+        .card, .dash-card, .sidebar, .bg-white { 
+            background-color: var(--bg-card) !important; 
+            color: var(--text-main) !important;
+        }
+        
+        /* Corrección para forzar textos y bordes */
+        .text-muted { color: var(--text-muted) !important; }
+        .text-dark { color: var(--text-title) !important; }
+        .border { border-color: var(--border-color) !important; }
+        /* --- NAVBAR --- */
+        .navbar {
+            background-color: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            padding: 10px 0;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .navbar-brand-title {
+            font-family: 'Volkhov', serif;
+            font-size: 1.8rem;
+            color: var(--serena-purple);
+            font-weight: 700;
+            line-height: 1;
+        }
+        .navbar-subtitle { font-size: 0.7rem; color: var(--text-muted); }
+        .nav-btn-dynamic {
+            color: var(--text-main);
+            padding: 8px 12px !important;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+        .nav-btn-dynamic:hover { color: var(--serena-purple); }
+        .nav-pill-active {
+            color: var(--serena-purple) !important;
+            border-bottom: 2px solid var(--serena-purple);
+            border-radius: 0;
+            font-weight: 600;
+            padding-bottom: 4px !important;
+        }
+        .profile-icon-nav { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
+
+        /* Dropdowns en modo oscuro */
+        .dropdown-menu { background-color: var(--bg-card); border-color: var(--border-color); }
+        .dropdown-item { color: var(--text-main); }
+        .dropdown-item:hover { background-color: var(--bg-body); color: var(--serena-purple); }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem 1rem;
+            height: 100%;
+            border: 1px solid var(--border-color);
+        }
+        .sidebar-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            padding-left: 1rem;
+        }
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            color: var(--text-main);
+            border-radius: 12px;
+            margin-bottom: 4px;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        .sidebar-link:hover { background-color: var(--bg-body); color: var(--serena-purple); }
+        .sidebar-link.active { background-color: var(--bg-light-purple); color: var(--serena-purple); }
+        .sidebar-divider { height: 1px; background-color: var(--border-color); margin: 1.5rem 0; }
+        
+        .btn-logout {
+            color: #e53e3e;
+            border: 1px solid #fecaca;
+            background-color: transparent;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        .btn-logout:hover { background-color: #fee2e2; color: #c53030; }
+
+        /* --- DASHBOARD CARDS --- */
+        .dash-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            height: 100%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.01);
+        }
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-title);
+            margin-bottom: 0.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card-title i { color: var(--serena-purple); }
+        .card-subtitle { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.2rem; }
+        .card-link {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            transition: color 0.2s;
+        }
+        .card-link:hover { color: var(--serena-purple); }
+
+        /* Top User Card */
+        .user-greeting-card { display: flex; align-items: center; justify-content: space-between; }
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--bg-light-purple);
+        }
+        .greeting-text h2 { margin: 0; color: var(--serena-purple); font-size: 1.8rem; }
+        .btn-outline-purple {
+            border: 1px solid var(--serena-purple);
+            color: var(--serena-purple);
+            border-radius: 50px;
+            padding: 6px 16px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            background: transparent;
+        }
+        .btn-outline-purple:hover { background: var(--bg-light-purple); }
+
+        /* Progress Donut */
+        .progress-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: conic-gradient(var(--serena-purple) 72%, var(--circle-empty) 0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+        .progress-circle-inner {
+            width: 75px;
+            height: 75px;
+            background-color: var(--bg-card);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.2;
+        }
+        .progress-circle-inner strong { font-size: 1.2rem; color: var(--serena-purple); }
+        .progress-circle-inner span { font-size: 0.6rem; color: var(--text-muted); }
+        .stat-bar-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Lists (Favorites, Activity) */
+        .list-item-custom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.85rem;
+        }
+        .list-item-custom:last-child { border-bottom: none; }
+        .list-icon-bg {
+            background-color: var(--bg-light-purple);
+            color: var(--serena-purple);
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+
+        /* Badges/Achievements */
+        .badge-circle {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        .badge-green { background-color: var(--badge-green-bg); color: #2fb380; }
+        .badge-pink { background-color: var(--badge-pink-bg); color: #e85d95; }
+        .badge-yellow { background-color: var(--badge-yellow-bg); color: #f5a623; }
+        .badge-blue { background-color: var(--badge-blue-bg); color: #3b99fc; }
+
+        /* Bottom Banner */
+        .support-banner {
+            background-color: var(--bg-light-purple);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .btn-serena-solid {
+            background-color: var(--serena-purple);
+            color: white;
+            border-radius: 50px;
+            padding: 8px 24px;
+            font-weight: 500;
+            border: none;
+        }
+        .btn-serena-solid:hover { background-color: var(--serena-purple-dark); color: white; }
+        .btn-serena-white {
+            background-color: var(--bg-card);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            padding: 8px 24px;
+            font-weight: 500;
+        }
+        .btn-serena-white:hover { background-color: var(--bg-body); }
+
+        /* Switches & Placeholders */
+        .form-check-input:checked { background-color: var(--serena-purple); border-color: var(--serena-purple); }
+        .placeholder-img {
+            background-color: var(--border-color);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-align: center;
+        }
+
+        /* ==========================================
+   ELIMINAR BORDES BLANCOS EN MODO OSCURO
+   ========================================== */
+[data-theme="dark"] .card,
+[data-theme="dark"] .action-card,
+[data-theme="dark"] .bg-white {
+    border-color: transparent !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important; /* Opcional: Da un efecto de sombra oscura muy elegante */
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+#telefonos {
+    scroll-margin-top: 100px; /* Ajusta este valor según el alto de tu barra de navegación */
+}
+
+:root {
+    --base-font-size: 16px; /* Tamaño por defecto */
+}
+
+body {
+    font-size: var(--base-font-size);
+    transition: font-size 0.2s ease; /* Transición suave */
+}
+
+/* ========== BURBUJA DE AYUDA (GLOBAL) ========== */
+.help-bubble-btn {
+    position: fixed; bottom: 28px; right: 28px;
+    width: 56px; height: 56px; border-radius: 50%;
+    background-color: var(--serena-purple); color: white;
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; box-shadow: 0 4px 18px rgba(123, 97, 255, 0.4);
+    transition: transform 0.2s, background-color 0.2s; z-index: 1050;
+}
+.help-bubble-btn:hover {
+    transform: scale(1.08); background-color: var(--serena-purple-dark);
+}
+.help-panel {
+    position: fixed; bottom: 96px; right: 28px; width: 300px;
+    background-color: var(--bg-card); border: 1px solid var(--border-color);
+    border-radius: 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    z-index: 1049; overflow: hidden;
+    transform: scale(0.92) translateY(16px); transform-origin: bottom right;
+    opacity: 0; pointer-events: none;
+    transition: transform 0.22s ease, opacity 0.22s ease;
+}
+.help-panel.open {
+    transform: scale(1) translateY(0); opacity: 1; pointer-events: all;
+}
+.help-panel-header {
+    background-color: var(--serena-purple); padding: 1.1rem 1.25rem 0.9rem;
+}
+.help-panel-header h6 {
+    font-family: 'Volkhov', serif; color: #fff; font-size: 1.05rem; margin: 0 0 2px;
+}
+.help-panel-header p {
+    color: rgba(255,255,255,0.78); font-size: 0.78rem; margin: 0;
+}
+.help-panel-body { padding: 0.5rem 0; }
+.help-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.85rem 1.25rem; cursor: pointer; border: none;
+    background: transparent; width: 100%; text-align: left;
+    color: var(--text-main); font-family: 'Inter', sans-serif;
+    font-size: 0.88rem; font-weight: 500; border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.15s, color 0.15s, padding-left 0.15s;
+}
+.help-item:last-child { border-bottom: none; }
+.help-item:hover {
+    background-color: var(--bg-light-purple); color: var(--serena-purple); padding-left: 1.5rem;
+}
+.help-item i { font-size: 1rem; color: var(--serena-purple); flex-shrink: 0; }
+.help-answer {
+    font-size: 0.82rem; color: var(--text-muted); padding: 0.6rem 1.25rem 0.9rem;
+    line-height: 1.5; background-color: var(--bg-light-purple);
+    border-top: 1px solid var(--border-color); display: none;
+}
+.help-answer.show { display: block; }
+.help-panel-footer {
+    padding: 0.85rem 1.25rem; border-top: 1px solid var(--border-color);
+}
+.help-footer-btn {
+    display: block; width: 100%; padding: 0.6rem; border-radius: 50px;
+    font-size: 0.85rem; font-weight: 500; text-align: center; text-decoration: none;
+    transition: all 0.2s; border: none; cursor: pointer;
+    background-color: var(--serena-purple); color: white;
+}
+.help-footer-btn:hover {
+    background-color: var(--serena-purple-dark); color: white;
+}
+

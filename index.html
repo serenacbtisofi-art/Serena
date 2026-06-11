@@ -1,6 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<head>
+    <meta charset="UTF-8">
+    <script>
+        // 1. Lógica unificada para evitar conflictos
+        (function() {
+            // Aplicar Modo Oscuro
+            if (localStorage.getItem("theme") === "dark") {
+                document.documentElement.setAttribute("data-theme", "dark");
+            }
+            
+            // Aplicar Tamaño de Fuente
+            const savedFontSize = localStorage.getItem("fontSize");
+            if (savedFontSize) {
+                document.documentElement.style.fontSize = savedFontSize + "px";
+            }
+        })();
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Serena - Home</title>
@@ -8,6 +25,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Volkhov:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="estilos.css">
 
     <style>
         :root {
@@ -16,13 +34,16 @@
             --serena-bg: #f7f5ff;
             --serena-light-purple: #ece8ff;
             --serena-text: #4a4a4a;
+            --base-font-size: 16px; /* Variable dinámica para el tamaño de letra */
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            color: var(--serena-text);
-            background-color: #ffffff;
+            font-size: var(--base-font-size); /* Se adapta al tamaño guardado */
+            color: var(--text-main);
+            background-color: var(--bg-body);
             padding-bottom: 5rem;
+            transition: background-color 0.3s, color 0.3s, font-size 0.2s ease;
         }
 
         h1, h2, h3, h4, h5, h6, .serena-title {
@@ -35,7 +56,6 @@
             color: var(--serena-purple) !important;
         }
 
-        /* Estilos de la barra de navegación */
         .nav-btn-dynamic {
             transition: all 0.3s ease;
             color: #4a4a4a;
@@ -53,7 +73,6 @@
             padding-right: 24px !important;
         }
 
-        /* Botón Serena */
         .btn-serena {
             background-color: var(--serena-purple);
             color: white;
@@ -68,7 +87,6 @@
             color: white;
         }
 
-        /* Efecto flotante para las tarjetas de acciones */
         .action-card {
             transition: all 0.2s ease;
             border: 1px solid #f0f0f0 !important;
@@ -78,12 +96,44 @@
             box-shadow: 0 10px 20px rgba(123, 97, 255, 0.1) !important;
             border-color: var(--serena-light-purple) !important;
         }
+
+        /* Columnas laterales de publicidad */
+        .ad-sidebar { position: sticky; top: 90px; }
+
+        .ad-card {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #f0ecff;
+            background-color: var(--bg-card, #fdf9ff);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            display: block;
+        }
+        .ad-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(123, 97, 255, 0.15);
+        }
+
+        .ad-label { font-size: 0.62rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px; }
+        .ad-title { font-size: 0.8rem; font-weight: 600; color: #4a4a4a; margin-bottom: 2px; }
+        .ad-sub { font-size: 0.72rem; color: #888; }
+        .ad-footer { padding: 8px 10px 10px; }
+        .ad-btn {
+            display: inline-block;
+            margin-top: 8px;
+            background-color: #ece8ff;
+            color: #7b61ff;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 50px;
+            padding: 4px 14px;
+        }
     </style>
 </head>
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 border-bottom sticky-top shadow-sm">
-        <div class="container">
+        <div class="container-fluid px-4">
             <a class="navbar-brand" href="#">
                 <img src="Logo.png" alt="Logo Serena" height="100" class="d-inline-block align-top">
             </a>
@@ -94,175 +144,308 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto align-items-center gap-1">
                     <li class="nav-item">
-                        <a class="nav-link nav-btn-dynamic nav-pill-active" href="index.html">Home</a>
+                        <a class="nav-link nav-btn-dynamic nav-pill-active" href="index.html" data-i18n="nav_home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-btn-dynamic" href="Serena.html">Salud Mental</a>
+                        <a class="nav-link nav-btn-dynamic" href="Serena.html" data-i18n="nav_health">Salud Mental</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-btn-dynamic" href="Herramientas.html">Herramientas</a>
+                        <a class="nav-link nav-btn-dynamic" href="Herramientas.html" data-i18n="nav_tools">Herramientas</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link nav-btn-dynamic dropdown-toggle" href="Apoyo.html" role="button" data-bs-toggle="dropdown">Apoyo</a>
-                        <ul class="dropdown-menu border-0 shadow-sm rounded-4">
-                            <li><a class="dropdown-item" href="#">Directorio</a></li>
-                            <li><a class="dropdown-item" href="#">Líneas de ayuda</a></li>
-                        </ul>
+                    <li class="nav-item">
+                        <a class="nav-link nav-btn-dynamic" href="Apoyo.html" data-i18n="nav_support">Apoyo</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link nav-btn-dynamic" href="Miespacio.html">Mi espacio</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-btn-dynamic" href="Miespacio.html" data-i18n="nav_space">Mi espacio</a>
+                    </li>
                 </ul>
 
                 <div class="d-flex align-items-center gap-3 ms-lg-auto mt-3 mt-lg-0" style="font-size: 3rem;">
-                    <a href="Miespacio.html" class="text-dark text-decoration-none transition-hover"><i class="bi bi-person-circle"></i></a>
+                    <a href="Miespacio.html" class="text-dark text-decoration-none"><i class="bi bi-person-circle"></i></a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <main class="container mt-5">
+    <div class="container-fluid px-3 px-xl-4 mt-5">
+        <div class="row g-3 justify-content-center">
 
-        <section class="mb-5 p-4 p-md-5 rounded-5" style="background-color: #c0a7fd6c;">
-    <div class="row align-items-center g-5">
-        
-        <div class="col-lg-6 text-center text-lg-start">
-            <h1 class="display-4 fw-bold mb-3" style="color: #4a4a4a; font-family: 'Volkhov', serif;">
-                Tu mente importa, <br>
-                <span style="color: #7b61ff;">cuídala con Serena</span>
-            </h1>
-            <p class="text-muted mb-4 fs-5" style="opacity: 0.9;">
-                Encuentra un espacio seguro, herramientas prácticas y el acompañamiento que necesitas para mejorar tu bienestar emocional cada día.
-            </p>
-            <a href="#acciones" class="btn btn-serena fs-5 shadow-sm">Comenzar mi camino</a>
-        </div>
+            <div class="col-lg-2 d-none d-lg-block">
+                <div class="ad-sidebar">
+                    <a href="https://glistening-naiad-23ec9a.netlify.app/" target="_blank" rel="noopener noreferrer" class="ad-card">
+                        <img src="8bit.jpeg" alt="Ofertas de franquicia" style="width: 100%; height: auto; display: block;">
+                        <div class="ad-footer">
+                            <p class="ad-label mb-0" data-i18n="ad_label">Publicidad</p>
+                            <p class="ad-title">8BITSHOP!!!</p>
+                            <p class="ad-sub">Ofertas de franquicia 🎮</p>
+                            <span class="ad-btn" data-i18n="ad_btn">Ver más</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
 
-        <div class="col-lg-6 position-relative text-center">
-            <img src="mujerflores.png" class="img-fluid rounded-5 shadow-sm w-100" style="object-fit: cover; max-height: 450px; background-color: #ddbcfcf6;" alt="Bienestar Serena">
-            
-            
-        </div>
-        
-    </div>
-</section>
+            <main class="col-12 col-lg-8">
 
-        <section class="mb-5 pt-4">
-            <div class="bg-white rounded-5 shadow-sm p-4 p-md-5" style="border: 1px solid #f0ecff;">
-                <div class="row align-items-center g-4">
+                <section class="mb-5 p-4 p-md-5 rounded-5" style="background-color: #c0a7fd6c;">
+                    <div class="row align-items-center g-5">
+                        
+                        <div class="col-lg-6 text-center text-lg-start">
+                            <h1 class="display-4 fw-bold mb-3" style="color: #4a4a4a; font-family: 'Volkhov', serif;">
+                                <span data-i18n="hero_title_1">Tu mente importa,</span> <br>
+                                <span style="color: #7b61ff;" data-i18n="hero_title_2">cuídala con Serena</span>
+                            </h1>
+                            <p class="text-muted mb-4 fs-5" style="opacity: 0.9;" data-i18n="hero_desc">
+                                Encuentra un espacio seguro, herramientas prácticas y el acompañamiento que necesitas para mejorar tu bienestar emocional cada día.
+                            </p>
+                            <a href="#acciones" class="btn btn-serena fs-5 shadow-sm" data-i18n="hero_btn">Comenzar mi camino</a>
+                        </div>
+
+                        <div class="col-lg-6 position-relative text-center">
+                            <img src="mujerflores.png" class="img-fluid rounded-5 shadow-sm w-100" style="object-fit: cover; max-height: 450px; background-color: #ddbcfcf6;" alt="Bienestar Serena">
+                        </div>
+                        
+                    </div>
+                </section>
+
+                <section id="acciones" class="mb-5">
+                    <h4 class="fw-bold mb-4 d-flex align-items-center" style="font-family: 'Volkhov', serif;" data-i18n="actions_title">
+                        Acciones para ti
+                    </h4>
                     
-                    <div class="col-md-6 d-flex align-items-center gap-4">
-                        <img src="perfil.png" class="rounded-circle shadow-sm object-fit-cover" style="width: 80px; height: 80px; background-color: #ece8ff;" alt="Perfil">
-                        <div>
-                            <h3 class="fw-bold mb-1" style="color: #4a4a4a; font-family: 'Volkhov', serif;">¡Hola, Ana!</h3>
-                            <p class="text-muted mb-0">Es un hermoso día para cuidar de ti.</p>
+                    <div class="row row-cols-1 row-cols-md-2 g-4">
+                        
+                        <div class="col">
+                            <a href="Serena.html" class="text-decoration-none">
+                                <div class="card h-100 rounded-4 action-card">
+                                    <div class="card-body p-4 d-flex justify-content-between align-items-center">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="rounded-circle d-flex justify-content-center align-items-center flex-shrink-0" style="width: 55px; height: 55px; background-color: #f1edff;">
+                                                <i class="bi bi-flower1 fs-3" style="color: #7b61ff;"></i>
+                                            </div>
+                                            <div>
+                                                <h5 class="fw-bold text-dark mb-1" data-i18n="nav_health">Salud Mental</h5>
+                                                <p class="small text-muted mb-0" data-i18n="action_health_desc">Entiende y cuida tu bienestar interior.</p>
+                                            </div>
+                                        </div>
+                                        <i class="bi bi-chevron-right fs-5 text-muted ms-2"></i>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
-                    </div>
 
-                    <div class="col-md-6 d-flex justify-content-md-end gap-2 gap-sm-3 flex-wrap">
-                        <div class="bg-light rounded-4 p-3 text-center flex-grow-1 flex-md-grow-0" style="min-width: 110px;">
-                            <h4 class="fw-bold mb-1" style="color: #7b61ff;">15</h4>
-                            <p class="small text-muted mb-0">Ejercicios</p>
+                        <div class="col">
+                            <a href="Herramientas.html" class="text-decoration-none">
+                                <div class="card h-100 rounded-4 action-card">
+                                    <div class="card-body p-4 d-flex justify-content-between align-items-center">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="rounded-circle d-flex justify-content-center align-items-center flex-shrink-0" style="width: 55px; height: 55px; background-color: #e8f5e9;">
+                                                <i class="bi bi-puzzle fs-3 text-success"></i>
+                                            </div>
+                                            <div>
+                                                <h5 class="fw-bold text-dark mb-1" data-i18n="nav_tools">Herramientas</h5>
+                                                <p class="small text-muted mb-0" data-i18n="action_tools_desc">Ejercicios prácticos y meditaciones.</p>
+                                            </div>
+                                        </div>
+                                        <i class="bi bi-chevron-right fs-5 text-muted ms-2"></i>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
-                        <div class="bg-light rounded-4 p-3 text-center flex-grow-1 flex-md-grow-0" style="min-width: 110px;">
-                            <h4 class="fw-bold mb-1 text-success">12</h4>
-                            <p class="small text-muted mb-0">Horas</p>
-                        </div>
-                        <div class="bg-light rounded-4 p-3 text-center flex-grow-1 flex-md-grow-0" style="min-width: 110px;">
-                            <h4 class="fw-bold mb-1 text-warning">5</h4>
-                            <p class="small text-muted mb-0">Días racha</p>
-                        </div>
-                    </div>
 
+                        <div class="col">
+                            <a href="Apoyo.html" class="text-decoration-none">
+                                <div class="card h-100 rounded-4 action-card">
+                                    <div class="card-body p-4 d-flex justify-content-between align-items-center">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="rounded-circle d-flex justify-content-center align-items-center flex-shrink-0" style="width: 55px; height: 55px; background-color: #fff3e0;">
+                                                <i class="bi bi-telephone fs-3" style="color: #e67e22;"></i>
+                                            </div>
+                                            <div>
+                                                <h5 class="fw-bold text-dark mb-1" data-i18n="nav_support">Apoyo</h5>
+                                                <p class="small text-muted mb-0" data-i18n="action_support_desc">Directorio y ayuda profesional.</p>
+                                            </div>
+                                        </div>
+                                        <i class="bi bi-chevron-right fs-5 text-muted ms-2"></i>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col">
+                            <a href="Miespacio.html" class="text-decoration-none">
+                                <div class="card h-100 rounded-4 action-card">
+                                    <div class="card-body p-4 d-flex justify-content-between align-items-center">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="rounded-circle d-flex justify-content-center align-items-center flex-shrink-0" style="width: 55px; height: 55px; background-color: #e3f2fd;">
+                                                <i class="bi bi-person fs-3 text-primary"></i>
+                                            </div>
+                                            <div>
+                                                <h5 class="fw-bold text-dark mb-1" data-i18n="nav_space">Mi espacio</h5>
+                                                <p class="small text-muted mb-0" data-i18n="action_space_desc">Tu progreso, notas y configuración.</p>
+                                            </div>
+                                        </div>
+                                        <i class="bi bi-chevron-right fs-5 text-muted ms-2"></i>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+                </section>
+
+            </main>
+
+            <div class="col-lg-2 d-none d-lg-block">
+                <div class="ad-sidebar">
+                    <a href="https://html-css-js-static--danyaandrade29.replit.app" target="_blank" rel="noopener noreferrer" class="ad-card">
+                        <img src="publicidad_galletas.jpeg" alt="Galletas de temporada" style="width: 100%; height: auto; display: block;">
+                        <div class="ad-footer">
+                            <p class="ad-label mb-0" data-i18n="ad_label">Publicidad</p>
+                            <p class="ad-title">La Última Miaja</p>
+                            <p class="ad-sub">Galletas y cupcakes de temporada 🍪</p>
+                            <span class="ad-btn" data-i18n="ad_btn">Ver más</span>
+                        </div>
+                    </a>
                 </div>
             </div>
-        </section>
 
-        <section id="acciones" class="mb-5">
-            <h4 class="fw-bold mb-4 d-flex align-items-center" style="font-family: 'Volkhov', serif;">
-                Acciones para ti
-            </h4>
-            
-            <div class="row row-cols-1 row-cols-md-2 g-4">
-                
-                <div class="col">
-                    <a href="Serena.html" class="text-decoration-none">
-                        <div class="card h-100 rounded-4 action-card">
-                            <div class="card-body p-4 d-flex justify-content-between align-items-center">
-                                <div class="d-flex align-items-center gap-3">
-                                    <div class="rounded-circle d-flex justify-content-center align-items-center flex-shrink-0" style="width: 55px; height: 55px; background-color: #f1edff;">
-                                        <i class="bi bi-flower1 fs-3" style="color: #7b61ff;"></i>
-                                    </div>
-                                    <div>
-                                        <h5 class="fw-bold text-dark mb-1">Salud Mental</h5>
-                                        <p class="small text-muted mb-0">Entiende y cuida tu bienestar interior.</p>
-                                    </div>
-                                </div>
-                                <i class="bi bi-chevron-right fs-5 text-muted ms-2"></i>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col">
-                    <a href="Herramientas.html" class="text-decoration-none">
-                        <div class="card h-100 rounded-4 action-card">
-                            <div class="card-body p-4 d-flex justify-content-between align-items-center">
-                                <div class="d-flex align-items-center gap-3">
-                                    <div class="rounded-circle d-flex justify-content-center align-items-center flex-shrink-0" style="width: 55px; height: 55px; background-color: #e8f5e9;">
-                                        <i class="bi bi-puzzle fs-3 text-success"></i>
-                                    </div>
-                                    <div>
-                                        <h5 class="fw-bold text-dark mb-1">Herramientas</h5>
-                                        <p class="small text-muted mb-0">Ejercicios prácticos y meditaciones.</p>
-                                    </div>
-                                </div>
-                                <i class="bi bi-chevron-right fs-5 text-muted ms-2"></i>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col">
-                    <a href="#" class="text-decoration-none">
-                        <div class="card h-100 rounded-4 action-card">
-                            <div class="card-body p-4 d-flex justify-content-between align-items-center">
-                                <div class="d-flex align-items-center gap-3">
-                                    <div class="rounded-circle d-flex justify-content-center align-items-center flex-shrink-0" style="width: 55px; height: 55px; background-color: #fff3e0;">
-                                        <i class="bi bi-telephone-heart fs-3 text-warning"></i>
-                                    </div>
-                                    <div>
-                                        <h5 class="fw-bold text-dark mb-1">Apoyo</h5>
-                                        <p class="small text-muted mb-0">Directorio y ayuda profesional.</p>
-                                    </div>
-                                </div>
-                                <i class="bi bi-chevron-right fs-5 text-muted ms-2"></i>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col">
-                    <a href="Miespacio.html" class="text-decoration-none">
-                        <div class="card h-100 rounded-4 action-card">
-                            <div class="card-body p-4 d-flex justify-content-between align-items-center">
-                                <div class="d-flex align-items-center gap-3">
-                                    <div class="rounded-circle d-flex justify-content-center align-items-center flex-shrink-0" style="width: 55px; height: 55px; background-color: #e3f2fd;">
-                                        <i class="bi bi-person fs-3 text-primary"></i>
-                                    </div>
-                                    <div>
-                                        <h5 class="fw-bold text-dark mb-1">Mi espacio</h5>
-                                        <p class="small text-muted mb-0">Tu progreso, notas y configuración.</p>
-                                    </div>
-                                </div>
-                                <i class="bi bi-chevron-right fs-5 text-muted ms-2"></i>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-            </div>
-        </section>
-
-    </main>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <div id="cookie-banner" style="
+        position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999;
+        background-color: #1a1535; border-top: 2px solid #7b61ff;
+        padding: 14px 24px; display: flex; align-items: center;
+        justify-content: space-between; gap: 16px; flex-wrap: wrap;
+        box-shadow: 0 -4px 20px rgba(123, 97, 255, 0.2);
+    ">
+        <p style="margin: 0; color: #ccc; font-size: 0.85rem; flex: 1; min-width: 200px;">
+            <span data-i18n="cookie_text">🍪 Este sitio utiliza cookies para mejorar tu experiencia de navegación. Al continuar, aceptas su uso.</span>
+            <a href="#" style="color: #7b61ff; text-decoration: underline; margin-left: 4px;" data-i18n="cookie_link">Más información</a>
+        </p>
+        <button onclick="aceptarCookies()" style="
+            background-color: #7b61ff; color: white; border: none;
+            border-radius: 50px; padding: 8px 24px; font-size: 0.85rem;
+            font-weight: 600; cursor: pointer; white-space: nowrap;
+        " onmouseover="this.style.backgroundColor='#6249e6'" onmouseout="this.style.backgroundColor='#7b61ff'" data-i18n="cookie_btn">
+            Aceptar
+        </button>
+    </div>
+
+    <script>
+        if (localStorage.getItem('cookies_aceptadas') === 'true') {
+            document.getElementById('cookie-banner').style.display = 'none';
+        }
+        function aceptarCookies() {
+            localStorage.setItem('cookies_aceptadas', 'true');
+            const banner = document.getElementById('cookie-banner');
+            banner.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+            banner.style.opacity = '0';
+            banner.style.transform = 'translateY(20px)';
+            setTimeout(() => banner.style.display = 'none', 400);
+        }
+    </script>
+
+    <footer style="background-color: #1a1535; color: #ccc; font-size: 0.85rem; margin-top: 4rem;">
+        <div class="container py-5">
+            <div class="row g-4 align-items-start">
+
+                <div class="col-md-4">
+                    <img src="Logo.png" alt="Logo Serena" height="70" class="mb-3">
+                    <p style="color: #a89ec9; line-height: 1.7;" data-i18n="footer_desc_home">
+                        Un espacio seguro para cuidar tu bienestar emocional. Herramientas, apoyo y acompañamiento para tu salud mental.
+                    </p>
+                </div>
+
+                <div class="col-md-2 offset-md-1">
+                    <h6 class="fw-semibold mb-3" style="color: #fff;" data-i18n="footer_explore">Explorar</h6>
+                    <ul class="list-unstyled" style="line-height: 2;">
+                        <li><a href="index.html" style="color: #a89ec9; text-decoration: none;" data-i18n="nav_home">Home</a></li>
+                        <li><a href="Serena.html" style="color: #a89ec9; text-decoration: none;" data-i18n="nav_health">Salud Mental</a></li>
+                        <li><a href="Herramientas.html" style="color: #a89ec9; text-decoration: none;" data-i18n="nav_tools">Herramientas</a></li>
+                        <li><a href="Apoyo.html" style="color: #a89ec9; text-decoration: none;" data-i18n="nav_support">Apoyo</a></li>
+                        <li><a href="Miespacio.html" style="color: #a89ec9; text-decoration: none;" data-i18n="nav_space">Mi espacio</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 offset-md-1">
+                    <h6 class="fw-semibold mb-3" style="color: #fff;" data-i18n="footer_contact">Contacto</h6>
+                    <p style="color: #a89ec9; margin-bottom: 8px;">
+                        <i class="bi bi-envelope me-2" style="color: #7b61ff;"></i>
+                        <a href="mailto:serenacbtis.ofi@gmail.com" style="color: #a89ec9; text-decoration: none;">serenacbtis.ofi@gmail.com</a>
+                    </p>
+                    <p style="color: #a89ec9; margin-bottom: 16px;">
+                        <i class="bi bi-shield-heart me-2" style="color: #7b61ff;"></i>
+                        <span data-i18n="footer_priority">Tu bienestar, nuestra prioridad</span>
+                    </p>
+                    <div class="mt-2">
+                        <p class="mb-1" style="color: #6c5f8a; font-size: 0.75rem;" data-i18n="footer_visits">Visitas al sitio</p>
+                        <img src="https://serena.goatcounter.com/counter/serena.svg" alt="Contador de visitas" style="height: 24px; opacity: 0.8;">
+                    </div>
+                </div>
+
+            </div>
+
+            <hr style="border-color: #2e2654; margin: 2rem 0;">
+
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2 text-center">
+                <p class="mb-0" style="color: #6c5f8a;" data-i18n="footer_rights2">
+                    © 2026 <span style="color: #7b61ff; font-weight: 500;">Serena</span> &nbsp;·&nbsp; Hecho con amor 💜
+                </p>
+                <p class="mb-0" style="color: #6c5f8a;" data-i18n="footer_update2">
+                    Sitio creado: 2026 &nbsp;·&nbsp; Última actualización: junio de 2026
+                </p>
+            </div>
+        </div>
+    </footer>
+
+<button class="help-bubble-btn" id="helpToggle" aria-label="Abrir centro de ayuda">
+    <i class="bi bi-question-lg"></i>
+</button>
+
+<div class="help-panel" id="helpPanel">
+    <div class="help-panel-header">
+        <h6 data-i18n="help_title">🌿 Centro de Ayuda</h6>
+        <p data-i18n="help_subtitle">Toca una pregunta para ver la respuesta</p>
+    </div>
+    <div class="help-panel-body">
+        <button class="help-item" onclick="toggleAnswer(this)">
+            <span><i class="bi bi-heart-pulse me-2"></i><span data-i18n="help_q1">¿Qué es Serena?</span></span>
+            <i class="bi bi-chevron-down"></i>
+        </button>
+        <div class="help-answer" data-i18n="help_a1">
+            Serena es un espacio de bienestar emocional con información confiable, ejercicios guiados y recursos de salud mental para acompañarte en tu día a día.
+        </div>
+
+        <button class="help-item" onclick="toggleAnswer(this)">
+            <span><i class="bi bi-flower1 me-2"></i><span data-i18n="help_q2">¿Qué hay en Herramientas?</span></span>
+            <i class="bi bi-chevron-down"></i>
+        </button>
+        <div class="help-answer" data-i18n="help_a2">
+            Encontrarás ejercicios de respiración, meditaciones guiadas, un diario emocional y técnicas cognitivas. También puedes descargar guías en PDF.
+        </div>
+
+        <button class="help-item" onclick="toggleAnswer(this)">
+            <span><i class="bi bi-telephone me-2"></i><span data-i18n="help_q3">¿Cómo pido ayuda urgente?</span></span>
+            <i class="bi bi-chevron-down"></i>
+        </button>
+        <div class="help-answer" data-i18n="help_a3">
+            Ve a la sección <strong>Apoyo</strong> en el menú. Ahí encontrarás números de crisis, líneas de escucha y directorio de profesionales de salud mental.
+        </div>
+    </div>
+    <div class="help-panel-footer">
+        <a href="Apoyo.html" class="help-footer-btn">
+            <i class="bi bi-chat-heart me-1"></i> <span data-i18n="help_btn">Buscar apoyo ahora</span>
+        </a>
+    </div>
+</div>
+
+<script data-goatcounter="https://serena.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+<script src="fuente.js"></script>
+<script src="burbuja.js"></script>
+
 </body>
 </html>

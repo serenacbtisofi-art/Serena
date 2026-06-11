@@ -1,60 +1,52 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SCRIPT DE INICIALIZACIÓN: Lee las preferencias antes de cargar el diseño -->
+    <script>
+        // 1. Aplicar modo oscuro guardado
+        if (localStorage.getItem("theme") === "dark") {
+            document.documentElement.setAttribute("data-theme", "dark");
+        }
+        
+        // 2. Aplicar tamaño de letra guardado (debe ir aquí para evitar parpadeos)
+        const savedFontSize = localStorage.getItem("fontSize");
+        if (savedFontSize) {
+            document.documentElement.style.fontSize = savedFontSize + "px";
+        }
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Serena - Mi espacio</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Volkhov:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="estilos.css">
 
     <style>
-        :root {
-            --serena-purple: #7b61ff;
-            --serena-purple-dark: #6249e6;
-            --serena-bg: #f8f9fc; /* Fondo general más suave */
-            --serena-light-purple: #f3f0ff;
-            --serena-text: #4a4a4a;
-            --serena-text-light: #8c8c8c;
-            --serena-border: #f0f0f5;
-        }
+        *, *::before, *::after { box-sizing: border-box; }
 
         body {
             font-family: 'Inter', sans-serif;
-            color: var(--serena-text);
-            background-color: var(--serena-bg);
-            font-size: 0.9rem;
+            background-color: var(--serena-bg, #f8f7ff);
+            color: var(--serena-text, #2d2d2d);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        h1, h2, h3, h4, h5, h6, .serena-title {
-            font-family: 'Volkhov', serif;
-            color: #2d2d2d;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        /* --- NAVBAR --- */
+        /* NAVBAR */
         .navbar {
             background-color: #ffffff;
-            border-bottom: 1px solid var(--serena-border);
+            border-bottom: 1px solid var(--serena-border, #ece8ff);
             padding: 10px 0;
         }
-        .navbar-brand-title {
-            font-family: 'Volkhov', serif;
-            font-size: 1.8rem;
-            color: var(--serena-purple);
-            font-weight: 700;
-            line-height: 1;
-        }
-        .navbar-subtitle {
-            font-size: 0.7rem;
-            color: var(--serena-text-light);
-        }
         .nav-btn-dynamic {
-            color: var(--serena-text);
+            color: var(--serena-text, #2d2d2d);
             padding: 8px 12px !important;
             border-radius: 50px;
             font-weight: 500;
@@ -64,285 +56,432 @@
             gap: 6px;
             transition: all 0.2s;
         }
-        .nav-btn-dynamic:hover {
-            color: var(--serena-purple);
-        }
+        .nav-btn-dynamic:hover { color: var(--serena-purple, #7b61ff); }
         .nav-pill-active {
-            color: var(--serena-purple) !important;
-            border-bottom: 2px solid var(--serena-purple);
+            color: var(--serena-purple, #7b61ff) !important;
+            border-bottom: 2px solid var(--serena-purple, #7b61ff);
             border-radius: 0;
             font-weight: 600;
             padding-bottom: 4px !important;
         }
-        .profile-icon-nav {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
 
-        /* --- SIDEBAR --- */
-        .sidebar {
-            background-color: #ffffff;
-            border-radius: 16px;
-            padding: 1.5rem 1rem;
-            height: 100%;
-            border: 1px solid var(--serena-border);
-        }
-        .sidebar-title {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--serena-text-light);
-            letter-spacing: 1px;
-            margin-bottom: 1rem;
-            padding-left: 1rem;
-        }
-        .sidebar-link {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 16px;
-            color: var(--serena-text);
-            border-radius: 12px;
-            margin-bottom: 4px;
-            transition: all 0.2s;
-            font-weight: 500;
-        }
-        .sidebar-link:hover {
-            background-color: #faf9ff;
-            color: var(--serena-purple);
-        }
-        .sidebar-link.active {
-            background-color: var(--serena-light-purple);
-            color: var(--serena-purple);
-        }
-        .sidebar-link i {
-            font-size: 1.1rem;
-        }
-        .sidebar-divider {
-            height: 1px;
-            background-color: var(--serena-border);
-            margin: 1.5rem 0;
-        }
-        .btn-logout {
-            color: #e53e3e;
-            border: 1px solid #fecaca;
-            background-color: #fff5f5;
-            justify-content: center;
-            margin-top: 1rem;
-        }
-        .btn-logout:hover {
-            background-color: #fee2e2;
-            color: #c53030;
-        }
-
-        /* --- DASHBOARD CARDS --- */
-        .dash-card {
-            background-color: #ffffff;
-            border: 1px solid var(--serena-border);
-            border-radius: 16px;
-            padding: 1.5rem;
-            height: 100%;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.01);
-        }
-        .card-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #2d2d2d;
-            margin-bottom: 0.2rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .card-title i {
-            color: var(--serena-purple);
-        }
-        .card-subtitle {
-            font-size: 0.75rem;
-            color: var(--serena-text-light);
-            margin-bottom: 1.2rem;
-        }
-        .card-link {
-            font-size: 0.8rem;
-            color: var(--serena-text-light);
-            display: block;
-            text-align: center;
-            margin-top: 1rem;
-            transition: color 0.2s;
-        }
-        .card-link:hover {
-            color: var(--serena-purple);
-        }
-
-        /* Top User Card */
-        .user-greeting-card {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .user-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--serena-light-purple);
-        }
-        .greeting-text h2 {
-            margin: 0;
-            color: var(--serena-purple);
-            font-size: 1.8rem;
-        }
-        .btn-outline-purple {
-            border: 1px solid var(--serena-purple);
-            color: var(--serena-purple);
-            border-radius: 50px;
-            padding: 6px 16px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            background: transparent;
-        }
-        .btn-outline-purple:hover {
-            background: var(--serena-light-purple);
-        }
-
-        /* Progress Donut (CSS simulation) */
-        .progress-circle {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background: conic-gradient(var(--serena-purple) 72%, #f0f0f0 0);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto;
-        }
-        .progress-circle-inner {
-            width: 75px;
-            height: 75px;
-            background-color: #fff;
-            border-radius: 50%;
+        /* MAIN */
+        .config-page {
+            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            line-height: 1.2;
+            padding: 4rem 1.5rem;
         }
-        .progress-circle-inner strong {
-            font-size: 1.2rem;
-            color: var(--serena-purple);
+
+        .config-header {
+            text-align: center;
+            margin-bottom: 3rem;
         }
-        .progress-circle-inner span {
-            font-size: 0.6rem;
-            color: var(--serena-text-light);
-        }
-        .stat-bar-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 0.8rem;
+        .config-header h1 {
+            font-family: 'Volkhov', serif;
+            font-size: 2.4rem;
+            color: var(--serena-purple, #7b61ff);
             margin-bottom: 0.5rem;
         }
+        .config-header p {
+            color: var(--serena-text-light, #888);
+            font-size: 1rem;
+        }
 
-        /* Lists (Favorites, Activity) */
-        .list-item-custom {
+        /* OPTIONS */
+        .config-options {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .config-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--serena-border);
-            font-size: 0.85rem;
+            padding: 1.3rem 0;
+            border-bottom: 1px solid var(--serena-border, #ece8ff);
         }
-        .list-item-custom:last-child {
-            border-bottom: none;
+        .config-item:first-child {
+            border-top: 1px solid var(--serena-border, #ece8ff);
         }
-        .list-icon-bg {
-            background-color: var(--serena-light-purple);
-            color: var(--serena-purple);
-            width: 28px;
-            height: 28px;
-            border-radius: 8px;
+
+        .config-label {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .config-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background-color: var(--serena-light-purple, #f0edff);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 10px;
+            font-size: 1.15rem;
+            color: var(--serena-purple, #7b61ff);
+            flex-shrink: 0;
+        }
+        .config-label-text strong {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+        .config-label-text span {
+            font-size: 0.78rem;
+            color: var(--serena-text-light, #888);
         }
 
-        /* Badges/Achievements */
-        .badge-circle {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
+        /* Toggle */
+        .form-check-input {
+            width: 2.5em;
+            height: 1.35em;
+            cursor: pointer;
+            margin: 0;
         }
-        .badge-green { background-color: #e6f7ef; color: #2fb380; }
-        .badge-pink { background-color: #fce8f0; color: #e85d95; }
-        .badge-yellow { background-color: #fef5e5; color: #f5a623; }
-        .badge-blue { background-color: #e8f4fd; color: #3b99fc; }
-
-        /* Bottom Banner */
-        .support-banner {
-            background-color: var(--serena-light-purple);
-            border-radius: 16px;
-            padding: 1.5rem 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .btn-serena-solid {
-            background-color: var(--serena-purple);
-            color: white;
-            border-radius: 50px;
-            padding: 8px 24px;
-            font-weight: 500;
-            border: none;
-        }
-        .btn-serena-solid:hover { background-color: var(--serena-purple-dark); color: white; }
-        .btn-serena-white {
-            background-color: white;
-            color: var(--serena-text);
-            border: 1px solid var(--serena-border);
-            border-radius: 50px;
-            padding: 8px 24px;
-            font-weight: 500;
-        }
-        .btn-serena-white:hover { background-color: #f8f9fc; }
-
-        /* Switch toggles custom color */
         .form-check-input:checked {
-            background-color: var(--serena-purple);
-            border-color: var(--serena-purple);
+            background-color: var(--serena-purple, #7b61ff);
+            border-color: var(--serena-purple, #7b61ff);
         }
 
-        /* Placeholders - Para que ubiques donde poner tus imágenes */
-        .placeholder-img {
-            background-color: #e9ecef;
-            display: inline-flex;
+        /* Lang pills */
+        .lang-pills { display: flex; gap: 6px; }
+        .lang-pill {
+            padding: 5px 16px;
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1.5px solid var(--serena-border, #ece8ff);
+            background: transparent;
+            color: var(--serena-text-light, #888);
+            transition: all 0.18s;
+        }
+        .lang-pill.active, .lang-pill:hover {
+            background-color: var(--serena-purple, #7b61ff);
+            border-color: var(--serena-purple, #7b61ff);
+            color: #fff;
+        }
+
+        /* Bookmark button */
+        .btn-bookmark-full {
+            width: 100%;
+            max-width: 480px;
+            margin-top: 2rem;
+            padding: 15px;
+            border-radius: 14px;
+            border: 1.5px solid var(--serena-purple, #7b61ff);
+            background: transparent;
+            color: var(--serena-purple, #7b61ff);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
             align-items: center;
             justify-content: center;
-            color: #adb5bd;
-            font-size: 0.8rem;
-            text-align: center;
+            gap: 10px;
+            transition: all 0.2s;
+        }
+        .btn-bookmark-full:hover, .btn-bookmark-full.saved {
+            background-color: var(--serena-purple, #7b61ff);
+            color: #fff;
+        }
+        .btn-bookmark-full i { font-size: 1.1rem; }
+
+        /* DARK MODE */
+        [data-theme="dark"] .navbar {
+            background-color: #1a1535 !important;
+            border-color: #2e2654;
+        }
+        [data-theme="dark"] .nav-btn-dynamic { color: #ccc; }
+        [data-theme="dark"] body {
+            background-color: #13102a;
+            color: #e0ddf7;
+        }
+        [data-theme="dark"] .config-icon { background-color: #2a2450; }
+        [data-theme="dark"] .config-item { border-color: #2e2654; }
+        [data-theme="dark"] .config-label-text strong { color: #e0ddf7; }
+        [data-theme="dark"] .lang-pill { border-color: #2e2654; color: #aaa; }
+        [data-theme="dark"] .config-header p { color: #7a6fa8; }
+        [data-theme="dark"] .btn-bookmark-full { color: #a89ec9; border-color: var(--serena-purple, #7b61ff); }
+        [data-theme="dark"] .btn-bookmark-full:hover,
+        [data-theme="dark"] .btn-bookmark-full.saved {
+            background-color: var(--serena-purple, #7b61ff);
+            color: #fff;
         }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg sticky-top shadow-sm">
-        <div class="container-fluid px-4">
-            <a class="navbar-brand d-flex align-items-center gap-2" href="#">
-                <div class="placeholder-img" style="width: 30px; height: 30px; border-radius: 8px;">Logo</div>
-                <div>
-                    <div class="navbar-brand-title">Serena</div>
-                    <div class="navbar-subtitle">Tu bienestar, nuestra prioridad</div>
-                </div>
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="Logo.png" alt="Logo Serena" height="80" class="d-inline-block align-top">
             </a>
-
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto align-items-center gap-2
+                <ul class="navbar-nav mx-auto align-items-center gap-1">
+                    <li class="nav-item"><a class="nav-link nav-btn-dynamic" href="index.html" data-i18n="nav_home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link nav-btn-dynamic" href="Serena.html" data-i18n="nav_health">Salud Mental</a></li>
+                    <li class="nav-item"><a class="nav-link nav-btn-dynamic" href="Herramientas.html" data-i18n="nav_tools">Herramientas</a></li>
+                    <li class="nav-item"><a class="nav-link nav-btn-dynamic" href="Apoyo.html" data-i18n="nav_support">Apoyo</a></li>
+                    <li class="nav-item"><a class="nav-link nav-btn-dynamic nav-pill-active" href="Miespacio.html" data-i18n="nav_space">Mi espacio</a></li>
+                </ul>
+                <div class="d-flex align-items-center gap-3 ms-lg-auto mt-3 mt-lg-0" style="font-size: 2rem;">
+                    <a href="#" class="text-dark text-decoration-none"><i class="bi bi-person-circle"></i></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="config-page">
+
+        <div class="config-header">
+            <h1 data-i18n="page_title">Mi espacio</h1>
+            <p data-i18n="page_subtitle">Personaliza tu experiencia en Serena</p>
+        </div>
+
+        <div class="config-options">
+
+            <!-- Modo oscuro -->
+            <div class="config-item">
+                <div class="config-label">
+                    <div class="config-icon"><i class="bi bi-moon-stars-fill"></i></div>
+                    <div class="config-label-text">
+                        <strong data-i18n="set_darkmode">Modo oscuro</strong>
+                        <span data-i18n="set_darkmode_desc">Cambia la apariencia visual</span>
+                    </div>
+                </div>
+                <div class="form-check form-switch m-0 p-0">
+                    <input class="form-check-input" type="checkbox" role="switch" id="darkModeSwitch">
+                </div>
+            </div>
+
+            <!-- Idioma -->
+            <div class="config-item">
+                <div class="config-label">
+                    <div class="config-icon"><i class="bi bi-translate"></i></div>
+                    <div class="config-label-text">
+                        <strong data-i18n="set_language">Idioma</strong>
+                        <span data-i18n="set_language_desc">Español / English</span>
+                    </div>
+                </div>
+                <div class="lang-pills">
+                    <button class="lang-pill" id="pill-es" onclick="setLang('es')">ES</button>
+                    <button class="lang-pill" id="pill-en" onclick="setLang('en')">EN</button>
+                </div>
+            </div>
+
+        </div>
+
+      
+        <div class="config-item">
+    <div class="config-label">
+        <div class="config-icon"><i class="bi bi-fonts"></i></div>
+        <div class="config-label-text">
+            <strong>Tamaño de texto</strong>
+            <span>Ajusta la legibilidad</span>
+        </div>
+    </div>
+    <div class="d-flex gap-2">
+        <button class="btn btn-sm btn-outline-secondary" onclick="setFontSize(14)">A</button>
+        <button class="btn btn-sm btn-outline-secondary" onclick="setFontSize(16)">A</button>
+        <button class="btn btn-sm btn-outline-secondary" onclick="setFontSize(18)">A</button>
+    </div>
+</div>
+
+        <button class="btn-bookmark-full" id="bookmarkBtn" onclick="toggleBookmark()">
+            <i class="bi bi-bookmark-plus" id="bookmarkIcon"></i>
+            <span id="bookmarkText" data-i18n="btn_bookmark">Guardar página en favoritos</span>
+        </button>
+
+    </main>
+
+    <footer style="background-color: #1a1535; color: #ccc; font-size: 0.85rem;">
+        <div class="container py-5">
+            <div class="row g-4 align-items-start">
+                <div class="col-md-4">
+                    <img src="Logo.png" alt="Logo Serena" height="60" class="mb-3">
+                    <p style="color: #a89ec9; line-height: 1.7;">Un espacio seguro para cuidar tu bienestar emocional.</p>
+                </div>
+                <div class="col-md-2 offset-md-1">
+                    <h6 class="fw-semibold mb-3" style="color: #fff;">Explorar</h6>
+                    <ul class="list-unstyled" style="line-height: 2;">
+                        <li><a href="index.html" style="color: #a89ec9; text-decoration: none;">Home</a></li>
+                        <li><a href="Serena.html" style="color: #a89ec9; text-decoration: none;">Salud Mental</a></li>
+                        <li><a href="Herramientas.html" style="color: #a89ec9; text-decoration: none;">Herramientas</a></li>
+                        <li><a href="Apoyo.html" style="color: #a89ec9; text-decoration: none;">Apoyo</a></li>
+                        <li><a href="Miespacio.html" style="color: #a89ec9; text-decoration: none;">Mi espacio</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 offset-md-1">
+                    <h6 class="fw-semibold mb-3" style="color: #fff;">Contacto</h6>
+                    <p style="color: #a89ec9; margin-bottom: 8px;">
+                        <i class="bi bi-envelope me-2" style="color: #7b61ff;"></i>
+                        <a href="mailto:serenacbtis.ofi@gmail.com" style="color: #a89ec9; text-decoration: none;">serenacbtis.ofi@gmail.com</a>
+                    </p>
+                    <p style="color: #a89ec9; margin-bottom: 16px;">
+                        <i class="bi bi-shield-heart me-2" style="color: #7b61ff;"></i>
+                        Tu bienestar, nuestra prioridad
+                    </p>
+                    <div class="mt-2">
+                        <p class="mb-1" style="color: #6c5f8a; font-size: 0.75rem;">Visitas al sitio</p>
+                        <img src="https://serena.goatcounter.com/counter/serena.svg" alt="Contador de visitas" style="height: 24px; opacity: 0.8;">
+                    </div>
+                </div>
+            </div>
+            <hr style="border-color: #2e2654; margin: 2rem 0;">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2 text-center">
+                <p class="mb-0" style="color: #6c5f8a;">© 2026 <span style="color: #7b61ff; font-weight: 500;">Serena</span> &nbsp;·&nbsp; Tu bienestar, nuestra prioridad 💜</p>
+                <p class="mb-0" style="color: #6c5f8a;">Última actualización: junio de 2026</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    const translations = {
+        es: {
+            nav_home:"Home", nav_health:"Salud Mental", nav_tools:"Herramientas",
+            nav_support:"Apoyo", nav_space:"Mi espacio",
+            page_title:"Mi espacio",
+            page_subtitle:"Personaliza tu experiencia en Serena",
+            set_darkmode:"Modo oscuro",
+            set_darkmode_desc:"Cambia la apariencia visual",
+            set_language:"Idioma",
+            set_language_desc:"Español / English",
+            btn_bookmark:"Guardar página en favoritos",
+            btn_bookmark_saved:"¡Guardado en favoritos!"
+        },
+        en: {
+            nav_home:"Home", nav_health:"Mental Health", nav_tools:"Tools",
+            nav_support:"Support", nav_space:"My Space",
+            page_title:"My Space",
+            page_subtitle:"Personalize your Serena experience",
+            set_darkmode:"Dark mode",
+            set_darkmode_desc:"Change the visual appearance",
+            set_language:"Language",
+            set_language_desc:"Español / English",
+            btn_bookmark:"Save page to bookmarks",
+            btn_bookmark_saved:"Saved to bookmarks!"
+        }
+    };
+
+    function setLang(lang) {
+        localStorage.setItem("language", lang);
+        document.querySelectorAll("[data-i18n]").forEach(el => {
+            const key = el.getAttribute("data-i18n");
+            if (translations[lang]?.[key]) el.textContent = translations[lang][key];
+        });
+        document.getElementById("pill-es").classList.toggle("active", lang === "es");
+        document.getElementById("pill-en").classList.toggle("active", lang === "en");
+        const saved = localStorage.getItem("serena_bookmarked") === "true";
+        const bText = document.getElementById("bookmarkText");
+        if (bText) bText.textContent = translations[lang][saved ? "btn_bookmark_saved" : "btn_bookmark"];
+    }
+
+    function toggleBookmark() {
+        const lang = localStorage.getItem("language") || "es";
+        const already = localStorage.getItem("serena_bookmarked") === "true";
+        if (!already) {
+            if (window.sidebar?.addPanel) {
+                window.sidebar.addPanel(document.title, location.href, "");
+            } else if (window.external && "AddFavorite" in window.external) {
+                window.external.AddFavorite(location.href, document.title);
+            } else {
+                alert(lang === "en"
+                    ? "Press Ctrl+D (or Cmd+D on Mac) to bookmark this page."
+                    : "Presiona Ctrl+D (o Cmd+D en Mac) para guardar esta página en favoritos.");
+            }
+            localStorage.setItem("serena_bookmarked", "true");
+        } else {
+            localStorage.setItem("serena_bookmarked", "false");
+        }
+        updateBookmarkBtn();
+    }
+
+    function updateBookmarkBtn() {
+        const lang = localStorage.getItem("language") || "es";
+        const saved = localStorage.getItem("serena_bookmarked") === "true";
+        const btn  = document.getElementById("bookmarkBtn");
+        const icon = document.getElementById("bookmarkIcon");
+        const text = document.getElementById("bookmarkText");
+        btn.classList.toggle("saved", saved);
+        icon.className = saved ? "bi bi-bookmark-check-fill" : "bi bi-bookmark-plus";
+        text.textContent = translations[lang][saved ? "btn_bookmark_saved" : "btn_bookmark"];
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const sw = document.getElementById("darkModeSwitch");
+        if (localStorage.getItem("theme") === "dark") {
+            document.documentElement.setAttribute("data-theme", "dark");
+            sw.checked = true;
+        }
+        sw.addEventListener("change", e => {
+            if (e.target.checked) {
+                document.documentElement.setAttribute("data-theme", "dark");
+                localStorage.setItem("theme", "dark");
+            } else {
+                document.documentElement.removeAttribute("data-theme");
+                localStorage.setItem("theme", "light");
+            }
+        });
+        const lang = localStorage.getItem("language") || "es";
+        setLang(lang);
+        updateBookmarkBtn();
+    });
+    </script>
+
+<button class="help-bubble-btn" id="helpToggle" aria-label="Abrir centro de ayuda">
+    <i class="bi bi-question-lg"></i>
+</button>
+
+<div class="help-panel" id="helpPanel">
+    <div class="help-panel-header">
+        <h6 data-i18n="help_title">🌿 Centro de Ayuda</h6>
+        <p data-i18n="help_subtitle">Toca una pregunta para ver la respuesta</p>
+    </div>
+    <div class="help-panel-body">
+        <button class="help-item" onclick="toggleAnswer(this)">
+            <span><i class="bi bi-heart-pulse me-2"></i><span data-i18n="help_q1">¿Qué es Serena?</span></span>
+            <i class="bi bi-chevron-down"></i>
+        </button>
+        <div class="help-answer" data-i18n="help_a1">
+            Serena es un espacio de bienestar emocional con información confiable, ejercicios guiados y recursos de salud mental para acompañarte en tu día a día.
+        </div>
+
+        <button class="help-item" onclick="toggleAnswer(this)">
+            <span><i class="bi bi-flower1 me-2"></i><span data-i18n="help_q2">¿Qué hay en Herramientas?</span></span>
+            <i class="bi bi-chevron-down"></i>
+        </button>
+        <div class="help-answer" data-i18n="help_a2">
+            Encontrarás ejercicios de respiración, meditaciones guiadas, un diario emocional y técnicas cognitivas. También puedes descargar guías en PDF.
+        </div>
+
+        <button class="help-item" onclick="toggleAnswer(this)">
+            <span><i class="bi bi-telephone me-2"></i><span data-i18n="help_q3">¿Cómo pido ayuda urgente?</span></span>
+            <i class="bi bi-chevron-down"></i>
+        </button>
+        <div class="help-answer" data-i18n="help_a3">
+            Ve a la sección <strong>Apoyo</strong> en el menú. Ahí encontrarás números de crisis, líneas de escucha y directorio de profesionales de salud mental.
+        </div>
+    </div>
+    <div class="help-panel-footer">
+        <a href="Apoyo.html" class="help-footer-btn">
+            <i class="bi bi-chat-heart me-1"></i> <span data-i18n="help_btn">Buscar apoyo ahora</span>
+        </a>
+    </div>
+</div>
+
+<script data-goatcounter="https://serena.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+<script src="fuente.js"></script>
+<script src="burbuja.js"></script>
+
+</body>
+</html>

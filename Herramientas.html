@@ -1,142 +1,240 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<head>
+    <meta charset="UTF-8">
+    <script>
+        // 1. Lógica unificada para evitar conflictos
+        (function() {
+            // Aplicar Modo Oscuro
+            if (localStorage.getItem("theme") === "dark") {
+                document.documentElement.setAttribute("data-theme", "dark");
+            }
+            
+            // Aplicar Tamaño de Fuente
+            const savedFontSize = localStorage.getItem("fontSize");
+            if (savedFontSize) {
+                document.documentElement.style.fontSize = savedFontSize + "px";
+            }
+        })();
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Serena - Herramientas</title>
-    <link class="rounded" rel="icon" type="image/png" href="favicon.png">
+    <title>Serena - Herramientas de Bienestar</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Volkhov:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Volkhov:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="estilos.css">
 
     <style>
+        /* ========== VARIABLES ========== */
         :root {
             --serena-purple: #7b61ff;
             --serena-purple-dark: #6249e6;
-            --serena-bg: #f7f5ff;
-            --serena-light-purple: #ece8ff;
-            --serena-text: #4a4a4a;
+            --serena-purple-light: #ece8ff;
+            --bg-body: #ffffff;
+            --bg-card: #ffffff;
+            --bg-light-purple: #f4f0ff;
+            --text-main: #1a1a2e;
+            --text-title: #1a1a2e;
+            --text-muted: #6c757d;
+            --border-color: #e9e9ef;
+        }
+
+        [data-theme="dark"] {
+            --bg-body: #121212;
+            --bg-card: #1e1b2e;
+            --bg-light-purple: #2a2350;
+            --text-main: #e0e0e0;
+            --text-title: #f0eaff;
+            --text-muted: #a89ec9;
+            --border-color: #2c2c3a;
+            --serena-purple-light: #2a2350;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            color: var(--serena-text);
-            background-color: #ffffff;
+            color: var(--text-main);
+            background-color: var(--bg-body);
+            transition: background-color 0.3s, color 0.3s;
         }
 
-        h1, h2, h3, h4, h5, h6, .serena-title {
+        h1, h2, h3, h4, h5, h6 {
             font-family: 'Volkhov', serif;
         }
 
+        /* ========== NAVBAR ========== */
+        .navbar {
+            background-color: var(--bg-card) !important;
+            border-bottom: 1px solid var(--border-color);
+        }
         .navbar-brand {
             font-family: 'Volkhov', serif;
             font-size: 1.8rem;
             color: var(--serena-purple) !important;
         }
-
-        /* Estilos dinámicos para la barra de navegación */
         .nav-btn-dynamic {
             transition: all 0.3s ease;
-            color: #4a4a4a;
+            color: var(--text-main);
             padding: 8px 16px !important;
             border-radius: 50px;
         }
-        .nav-btn-dynamic:hover {
-            color: var(--serena-purple);
-        }
+        .nav-btn-dynamic:hover { color: var(--serena-purple); }
         .nav-pill-active {
-            background-color: #ece8ff !important;
-            color: #7b61ff !important;
+            background-color: var(--bg-light-purple) !important;
+            color: var(--serena-purple) !important;
             font-weight: 500;
             padding-left: 24px !important;
             padding-right: 24px !important;
         }
 
-        /* Hero Header */
+        /* ========== HERO ========== */
         .hero-mental {
-            background-color: var(--serena-bg);
+            background-color: #c0a7fd6c;
             border-radius: 40px;
             padding: 3rem;
             margin-bottom: 3rem;
         }
-
-        /* ----- NUEVA CLASE PARA LOS RECTÁNGULOS DE SECCIONES ----- */
-        .section-box {
-            background-color: #faf8ff;
-            border: 1px solid #f0ecff;
-            border-radius: 32px;
-            padding: 2rem;
-            height: 100%;
+        [data-theme="dark"] .hero-mental {
+            background-color: rgba(123, 97, 255, 0.2);
         }
+        .hero-title { color: #592199; }
+        [data-theme="dark"] .hero-title { color: #c49eff; }
+        .hero-text { color: var(--text-main); }
 
-        /* Lista de Temas Lateral */
-        .topic-link {
-            transition: all 0.2s ease;
-            border: 1px solid #f0f0f0;
-            border-radius: 15px;
+        /* ========== SECCIÓN TITLES ========== */
+        .section-title {
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-title);
+        }
+        .section-title i { color: var(--serena-purple); font-size: 1.4rem; }
+
+        /* ========== BADGE CATEGORÍA ========== */
+        .badge-category {
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 40px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
             cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
         }
-        .topic-link:hover {
-            background-color: var(--serena-bg);
-            border-color: var(--serena-light-purple);
-            transform: translateX(5px);
-        }
-
-        /* Cuadrículas y Tarjetas */
-        .signal-card {
-            background-color: #fff;
-            border: 1px solid #f0f0f0;
-            border-radius: 20px;
-            padding: 1.5rem;
-            text-align: center;
-            height: 100%;
-        }
-        .signal-icon {
-            font-size: 2rem;
+        .badge-category:hover {
+            background-color: var(--bg-light-purple);
             color: var(--serena-purple);
-            margin-bottom: 0.8rem;
+            border-color: var(--serena-purple);
+            transform: translateY(-2px);
         }
 
-        /* Mitos y Realidades */
-        .myth-box {
-            background-color: #fff5f5;
-            border-radius: 15px;
-            padding: 1rem;
-            border-left: 5px solid #ff4d4d;
+        /* ========== TARJETAS ========== */
+        .card-custom {
+            border-radius: 24px !important;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color) !important;
+            background-color: var(--bg-card) !important;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.05);
         }
-        .reality-box {
-            background-color: #f5fff5;
-            border-radius: 15px;
-            padding: 1rem;
-            border-left: 5px solid #2ec4b6;
+        .card-custom:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 16px 28px rgba(123,97,255,0.12) !important;
+            border-color: var(--serena-purple-light) !important;
         }
+        .card-custom h5 { color: var(--text-title); }
+        .card-custom .text-muted { color: var(--text-muted) !important; }
 
-        /* Botón Serena Redondeado */
+        /* ========== BOTONES ========== */
         .btn-serena {
             background-color: var(--serena-purple);
             color: white;
-            border-radius: 50px;
-            padding: 10px 24px;
-            font-weight: 500;
+            border-radius: 40px;
+            padding: 10px 28px;
+            font-weight: 600;
             border: none;
-            transition: background 0.2s;
+            transition: all 0.2s;
         }
         .btn-serena:hover {
             background-color: var(--serena-purple-dark);
+            transform: scale(1.02);
+            color: white;
+        }
+        .btn-outline-serena {
+            border-radius: 40px;
+            border: 1.5px solid var(--serena-purple);
+            background: transparent;
+            color: var(--serena-purple);
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .btn-outline-serena:hover {
+            background-color: var(--serena-purple);
             color: white;
         }
 
-        /* Banner de Apoyo Inferior */
-        .support-banner {
-            background-color: #f1edff;
-            border-radius: 32px;
-            padding: 2rem;
+        /* ========== LISTA DESCARGABLES ========== */
+        .list-item-custom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-main);
+        }
+        .list-item-custom:hover {
+            color: var(--serena-purple);
+            padding-left: 8px;
+        }
+        .list-item-custom:last-child { border-bottom: none; }
+        .list-item-custom .fw-medium { color: var(--text-title); }
+        .list-item-custom .text-muted { color: var(--text-muted) !important; }
+
+        /* ========== MODALES ========== */
+        .modal-content {
+            background-color: var(--bg-card) !important;
+            color: var(--text-main) !important;
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+        }
+        .modal-header {
+            border-bottom: 1px solid var(--border-color);
+        }
+        .modal-title { color: var(--text-title) !important; }
+        .modal-body { color: var(--text-muted) !important; }
+        .modal-body p { color: var(--text-muted) !important; }
+        .modal-body strong { color: var(--text-title) !important; }
+        .modal-body ul li { color: var(--text-muted) !important; }
+        .modal-footer { border-top: 1px solid var(--border-color); }
+        [data-theme="dark"] .btn-close {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+
+        /* ========== FOOTER ========== */
+        .footer-serena {
+            background-color: #1a1535;
+            color: #ccc;
+            font-size: 0.85rem;
+            margin-top: 4rem;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .hero-mental { padding: 1.8rem; text-align: center; }
+            .hero-mental img { max-height: 200px; }
         }
     </style>
 </head>
-<body id="inicio">
+<body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 border-b sticky-top shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-light py-3 sticky-top shadow-sm">
         <div class="container">
             <a class="navbar-brand" href="#">
                 <img src="Logo.png" alt="Logo Serena" height="100" class="d-inline-block align-top">
@@ -148,29 +246,591 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto align-items-center gap-1">
                     <li class="nav-item">
-                        <a class="nav-link nav-btn-dynamic" href="index.html">Home</a>
+                        <a class="nav-link nav-btn-dynamic" href="index.html" data-i18n="nav_home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-btn-dynamic" href="Serena.html">Salud Mental</a>
+                        <a class="nav-link nav-btn-dynamic" href="Serena.html" data-i18n="nav_health">Salud Mental</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-btn-dynamic nav-pill-active" href="Herramientas.html">Herramientas</a>
+                        <a class="nav-link nav-btn-dynamic nav-pill-active" href="Herramientas.html" data-i18n="nav_tools">Herramientas</a>
                     </li>
-                    
-                    <li class="nav-item dropdown">
-                        <a class="nav-link nav-btn-dynamic dropdown-toggle" href="Apoyo.html" role="button" data-bs-toggle="dropdown">Apoyo</a>
-                        <ul class="dropdown-menu border-0 shadow-sm rounded-4">
-                            <li><a class="dropdown-item" href="#">Opción 1</a></li>
-                            <li><a class="dropdown-item" href="#">Opción 2</a></li>
-                        </ul>
+                    <li class="nav-item">
+                        <a class="nav-link nav-btn-dynamic" href="Apoyo.html" data-i18n="nav_support">Apoyo</a>
                     </li>
-                    
-                    <li class="nav-item"><a class="nav-link nav-btn-dynamic" href="Miespacio.html">Mi espacio</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-btn-dynamic" href="Miespacio.html" data-i18n="nav_space">Mi espacio</a>
+                    </li>
                 </ul>
-
                 <div class="d-flex align-items-center gap-3 ms-lg-auto mt-3 mt-lg-0" style="font-size: 3rem;">
-                    <a href="#" class="text-dark text-decoration-none transition-hover"><i class="bi bi-person-circle"></i></a>
+                    <a href="Miespacio.html" class="text-decoration-none" style="color: var(--text-main);"><i class="bi bi-person-circle"></i></a>
                 </div>
             </div>
         </div>
     </nav>
+
+    <main class="container py-4 py-lg-5">
+
+        <section class="hero-mental d-flex flex-column flex-lg-row align-items-center justify-content-between gap-4 mb-5">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-2 hero-title" data-i18n="tools_hero_title">Herramientas para ti 🌿</h1>
+                <p class="fs-5 mb-3 hero-text" data-i18n="tools_hero_subtitle1">Recursos prácticos para cuidar tu mente y tu bienestar cada día.</p>
+                <p class="mb-0 hero-text" style="opacity: 0.9;" data-i18n="tools_hero_subtitle2">La salud mental es clave para enfrentar desafíos, mantener relaciones sanas y construir una vida plena. Aquí encontrarás técnicas respaldadas por la psicología para fortalecer tu equilibrio emocional.</p>
+            </div>
+            <div class="col-lg-5 text-center">
+                <img src="Herramientas.png" alt="Ilustración herramientas de bienestar" class="img-fluid" style="max-height: 260px; object-fit: contain;">
+            </div>
+        </section>
+
+        <div class="row g-5 justify-content-center">
+            <div class="col-lg-10 col-xl-9">
+
+                <div class="mb-5">
+                    <h4 class="section-title justify-content-center justify-content-md-start">
+                        <i class="bi bi-grid-fill"></i> <span data-i18n="cat_title">Explora por categoría</span>
+                    </h4>
+                    <div class="d-flex flex-wrap gap-2 justify-content-center justify-content-md-start">
+                        <span class="badge-category" data-bs-toggle="modal" data-bs-target="#modalEstres" data-i18n="cat_stress">😓 Manejo del estrés</span>
+                        <span class="badge-category" data-bs-toggle="modal" data-bs-target="#modalAnsiedad" data-i18n="cat_anx">🌀 Ansiedad</span>
+                        <span class="badge-category" data-bs-toggle="modal" data-bs-target="#modalAnimo" data-i18n="cat_mood">😊 Estado de ánimo</span>
+                        <span class="badge-category" data-bs-toggle="modal" data-bs-target="#modalSueno" data-i18n="cat_sleep">🌙 Sueño y descanso</span>
+                        <span class="badge-category" data-bs-toggle="modal" data-bs-target="#modalAutoestima" data-i18n="cat_self">💖 Autoestima</span>
+                        <span class="badge-category" data-bs-toggle="modal" data-bs-target="#modalRelaciones" data-i18n="cat_rel">🤝 Relaciones</span>
+                        <span class="badge-category" data-bs-toggle="modal" data-bs-target="#modalMindfulness" data-i18n="cat_mind">🧘 Mindfulness</span>
+                        <span class="badge-category" data-bs-toggle="modal" data-bs-target="#modalEstudio" data-i18n="cat_work">📚 Estudio y trabajo</span>
+                    </div>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class="section-title justify-content-center justify-content-md-start">
+                        <i class="bi bi-tools"></i> <span data-i18n="prac_title">Herramientas prácticas</span>
+                    </h4>
+                    <div class="row g-4 justify-content-center">
+
+                        <div class="col-md-6">
+                            <div class="card card-custom p-4 h-100">
+                                <div class="d-flex flex-column flex-sm-row align-items-center align-items-sm-start gap-4 mb-3">
+                                    <div class="rounded-circle d-flex justify-content-center align-items-center flex-shrink-0"
+                                         style="width:60px;height:60px;background:var(--bg-light-purple);color:var(--serena-purple);">
+                                        <i class="bi bi-lungs fs-2"></i>
+                                    </div>
+                                    <div class="text-center text-sm-start">
+                                        <h5 class="fw-bold mb-2" data-i18n="tool_breath_title">Ejercicios de respiración</h5>
+                                        <p class="text-muted mb-0" style="font-size:0.95rem;" data-i18n="tool_breath_desc">Técnicas para calmar mente y cuerpo en minutos.</p>
+                                    </div>
+                                </div>
+                                <div class="mt-auto text-center text-sm-end">
+                                    <button class="btn btn-outline-serena px-4 py-2" data-bs-toggle="modal" data-bs-target="#modalRespiracion" style="font-size:0.9rem;">
+                                        <span data-i18n="btn_explore">Explorar</span> <i class="bi bi-arrow-right ms-1"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card card-custom p-4 h-100">
+                                <div class="d-flex flex-column flex-sm-row align-items-center align-items-sm-start gap-4 mb-3">
+                                    <div class="rounded-circle d-flex justify-content-center align-items-center flex-shrink-0"
+                                         style="width:60px;height:60px;background:var(--bg-light-purple);color:var(--serena-purple);">
+                                        <i class="bi bi-yin-yang fs-2"></i>
+                                    </div>
+                                    <div class="text-center text-sm-start">
+                                        <h5 class="fw-bold mb-2" data-i18n="tool_med_title">Meditaciones guiadas</h5>
+                                        <p class="text-muted mb-0" style="font-size:0.95rem;" data-i18n="tool_med_desc">Sesiones cortas para diferentes momentos del día.</p>
+                                    </div>
+                                </div>
+                                <div class="mt-auto text-center text-sm-end">
+                                    <button class="btn btn-outline-serena px-4 py-2" data-bs-toggle="modal" data-bs-target="#modalMeditacion" style="font-size:0.9rem;">
+                                        <span data-i18n="btn_explore">Explorar</span> <i class="bi bi-arrow-right ms-1"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card card-custom p-4 h-100">
+                                <div class="d-flex flex-column flex-sm-row align-items-center align-items-sm-start gap-4 mb-3">
+                                    <div class="rounded-circle d-flex justify-content-center align-items-center flex-shrink-0"
+                                         style="width:60px;height:60px;background:var(--bg-light-purple);color:var(--serena-purple);">
+                                        <i class="bi bi-journal-bookmark-fill fs-2"></i>
+                                    </div>
+                                    <div class="text-center text-sm-start">
+                                        <h5 class="fw-bold mb-2" data-i18n="tool_jour_title">Diario de pensamientos</h5>
+                                        <p class="text-muted mb-0" style="font-size:0.95rem;" data-i18n="tool_jour_desc">Escribe, reflexiona y libera tu interior.</p>
+                                    </div>
+                                </div>
+                                <div class="mt-auto text-center text-sm-end">
+                                    <button class="btn btn-outline-serena px-4 py-2" data-bs-toggle="modal" data-bs-target="#modalDiario" style="font-size:0.9rem;">
+                                        <span data-i18n="btn_explore">Explorar</span> <i class="bi bi-arrow-right ms-1"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card card-custom p-4 h-100">
+                                <div class="d-flex flex-column flex-sm-row align-items-center align-items-sm-start gap-4 mb-3">
+                                    <div class="rounded-circle d-flex justify-content-center align-items-center flex-shrink-0"
+                                         style="width:60px;height:60px;background:var(--bg-light-purple);color:var(--serena-purple);">
+                                        <i class="bi bi-brightness-alt-high fs-2"></i>
+                                    </div>
+                                    <div class="text-center text-sm-start">
+                                        <h5 class="fw-bold mb-2" data-i18n="tool_cog_title">Reestructuración cognitiva</h5>
+                                        <p class="text-muted mb-0" style="font-size:0.95rem;" data-i18n="tool_cog_desc">Transforma pensamientos negativos en positivos.</p>
+                                    </div>
+                                </div>
+                                <div class="mt-auto text-center text-sm-end">
+                                    <button class="btn btn-outline-serena px-4 py-2" data-bs-toggle="modal" data-bs-target="#modalCognitiva" style="font-size:0.9rem;">
+                                        <span data-i18n="btn_explore">Explorar</span> <i class="bi bi-arrow-right ms-1"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="section-title justify-content-center justify-content-md-start">
+                        <i class="bi bi-cloud-arrow-down-fill"></i> <span data-i18n="dl_title">Recursos descargables</span>
+                    </h4>
+                    <div class="card card-custom p-4">
+                        <a href="Guía para un sueño saludable.pdf" download="Guia_Sueno_Saludable.pdf" class="list-item-custom text-decoration-none py-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <i class="bi bi-filetype-pdf text-danger fs-1"></i>
+                                <div>
+                                    <span class="fw-medium fs-6" data-i18n="dl_sleep_title">Guía para un sueño saludable (PDF)</span>
+                                    <p class="small text-muted mb-0" data-i18n="dl_sleep_desc">Consejos prácticos para mejorar tu descanso</p>
+                                </div>
+                            </div>
+                            <i class="bi bi-download fs-5" style="color:var(--serena-purple);"></i>
+                        </a>
+                        <a href="Guía para mejorar la Ansiedad.pdf" download="Guia_Mejorar_Ansiedad.pdf" class="list-item-custom text-decoration-none py-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <i class="bi bi-filetype-pdf text-danger fs-1"></i>
+                                <div>
+                                    <span class="fw-medium fs-6" data-i18n="dl_anx_title">Guía para manejar la ansiedad (PDF)</span>
+                                    <p class="small text-muted mb-0" data-i18n="dl_anx_desc">Estrategias para reducir la ansiedad</p>
+                                </div>
+                            </div>
+                            <i class="bi bi-download fs-5" style="color:var(--serena-purple);"></i>
+                        </a>
+                        <a href="Plan de Autocuidado Semanal para el Bienestar Emocional.pdf" download="Plan_Autocuidado.pdf" class="list-item-custom text-decoration-none py-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <i class="bi bi-filetype-pdf text-danger fs-1"></i>
+                                <div>
+                                    <span class="fw-medium fs-6" data-i18n="dl_self_title">Plan de autocuidado semanal (PDF)</span>
+                                    <p class="small text-muted mb-0" data-i18n="dl_self_desc">Organiza tu bienestar día a día</p>
+                                </div>
+                            </div>
+                            <i class="bi bi-download fs-5" style="color:var(--serena-purple);"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <div class="modal fade" id="modalEstres" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-lungs me-2" style="color:var(--serena-purple);"></i><span data-i18n="mod_stress_title">Manejo del estrés</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p data-i18n="mod_stress_p">El estrés es una respuesta natural, pero cuando es constante afecta la salud. Aquí encontrarás técnicas como respiración profunda, organización del tiempo y pausas activas para reducirlo.</p>
+                    <strong data-i18n="mod_stress_sub">Estrategias recomendadas:</strong>
+                    <ul class="mt-2">
+                        <li data-i18n="mod_stress_li1">Respiración diafragmática profunda.</li>
+                        <li data-i18n="mod_stress_li2">Planificación de tareas por prioridad.</li>
+                        <li data-i18n="mod_stress_li3">Pausas activas de 5 minutos cada hora.</li>
+                        <li data-i18n="mod_stress_li4">Actividad física diaria moderada.</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-serena" data-bs-dismiss="modal" data-i18n="btn_understood">Entendido</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalAnsiedad" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-wind me-2" style="color:var(--serena-purple);"></i><span data-i18n="mod_anx_title">Ansiedad</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p data-i18n="mod_anx_p">La ansiedad excesiva interfiere en la vida diaria. Aprende a reconocer sus síntomas, usar técnicas de grounding y ejercicios de respiración para recuperar la calma.</p>
+                    <strong data-i18n="mod_anx_sub">Técnicas útiles:</strong>
+                    <ul class="mt-2">
+                        <li data-i18n="mod_anx_li1">Técnica 5-4-3-2-1 de grounding.</li>
+                        <li data-i18n="mod_anx_li2">Respiración cuadrada (4-4-4-4).</li>
+                        <li data-i18n="mod_anx_li3">Escritura de pensamientos ansiosos.</li>
+                        <li data-i18n="mod_anx_li4">Exposición gradual a situaciones temidas.</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-serena" data-bs-dismiss="modal" data-i18n="btn_understood">Entendido</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalAnimo" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-emoji-smile me-2" style="color:var(--serena-purple);"></i><span data-i18n="mod_mood_title">Estado de ánimo</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p data-i18n="mod_mood_p">Monitorear tu ánimo te permite identificar patrones y actuar a tiempo. Usa nuestro registro diario y descubre qué actividades mejoran tu bienestar.</p>
+                    <strong data-i18n="mod_mood_sub">Cómo mejorar tu ánimo:</strong>
+                    <ul class="mt-2">
+                        <li data-i18n="mod_mood_li1">Registro diario de emociones.</li>
+                        <li data-i18n="mod_mood_li2">Actividades que te generan placer o logro.</li>
+                        <li data-i18n="mod_mood_li3">Conexión social con personas de confianza.</li>
+                        <li data-i18n="mod_mood_li4">Exposición solar y movimiento físico.</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-serena" data-bs-dismiss="modal" data-i18n="btn_understood">Entendido</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalSueno" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-moon-stars me-2" style="color:var(--serena-purple);"></i><span data-i18n="mod_sleep_title">Sueño y descanso</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p data-i18n="mod_sleep_p">Dormir bien es esencial para la salud mental y física. Encuentra rutinas de higiene del sueño y consejos para mejorar la calidad de tu descanso.</p>
+                    <strong data-i18n="mod_sleep_sub">Hábitos recomendados:</strong>
+                    <ul class="mt-2">
+                        <li data-i18n="mod_sleep_li1">Mantén un horario fijo para dormir y despertar.</li>
+                        <li data-i18n="mod_sleep_li2">Evita pantallas 30 minutos antes de dormir.</li>
+                        <li data-i18n="mod_sleep_li3">Habitación oscura, fresca y silenciosa.</li>
+                        <li data-i18n="mod_sleep_li4">Ejercicios de respiración al acostarte.</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-serena" data-bs-dismiss="modal" data-i18n="btn_understood">Entendido</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalAutoestima" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-person-hearts me-2" style="color:var(--serena-purple);"></i><span data-i18n="mod_self_title">Autoestima</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p data-i18n="mod_self_p">Fortalecer tu autoestima mejora tu confianza y tu relación contigo mismo. Pequeños pasos diarios hacen una gran diferencia.</p>
+                    <strong data-i18n="mod_self_sub">Formas de fortalecerla:</strong>
+                    <ul class="mt-2">
+                        <li data-i18n="mod_self_li1">Afirmaciones positivas cada mañana.</li>
+                        <li data-i18n="mod_self_li2">Registro de logros personales, incluso pequeños.</li>
+                        <li data-i18n="mod_self_li3">Evitar comparaciones con los demás.</li>
+                        <li data-i18n="mod_self_li4">Establecer y respetar tus propios límites.</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-serena" data-bs-dismiss="modal" data-i18n="btn_understood">Entendido</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalRelaciones" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-people me-2" style="color:var(--serena-purple);"></i><span data-i18n="mod_rel_title">Relaciones</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p data-i18n="mod_rel_p">La comunicación asertiva y el manejo de conflictos son clave para construir vínculos sanos y duraderos.</p>
+                    <strong data-i18n="mod_rel_sub">Pilares de relaciones saludables:</strong>
+                    <ul class="mt-2">
+                        <li data-i18n="mod_rel_li1">Escucha activa y empatía.</li>
+                        <li data-i18n="mod_rel_li2">Expresar necesidades con asertividad.</li>
+                        <li data-i18n="mod_rel_li3">Límites saludables y respeto mutuo.</li>
+                        <li data-i18n="mod_rel_li4">Gratitud y reconocimiento hacia los demás.</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-serena" data-bs-dismiss="modal" data-i18n="btn_understood">Entendido</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalMindfulness" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-flower1 me-2" style="color:var(--serena-purple);"></i><span data-i18n="mod_mind_title">Mindfulness</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p data-i18n="mod_mind_p">La atención plena reduce el estrés, mejora la concentración y te ayuda a vivir el presente sin juzgar tus pensamientos.</p>
+                    <strong data-i18n="mod_mind_sub">Prácticas básicas:</strong>
+                    <ul class="mt-2">
+                        <li data-i18n="mod_mind_li1">Meditación de 5 minutos al despertar.</li>
+                        <li data-i18n="mod_mind_li2">Respiración consciente durante el día.</li>
+                        <li data-i18n="mod_mind_li3">Observar pensamientos sin aferrarse a ellos.</li>
+                        <li data-i18n="mod_mind_li4">Comer, caminar o hacer tareas con plena atención.</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-serena" data-bs-dismiss="modal" data-i18n="btn_understood">Entendido</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalEstudio" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-laptop me-2" style="color:var(--serena-purple);"></i><span data-i18n="mod_work_title">Estudio y trabajo</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p data-i18n="mod_work_p">Gestiona la presión académica y laboral con técnicas de organización y manejo del perfeccionismo para evitar el burnout.</p>
+                    <strong data-i18n="mod_work_sub">Estrategias clave:</strong>
+                    <ul class="mt-2">
+                        <li data-i18n="mod_work_li1">Técnica Pomodoro: 25 min trabajo, 5 min descanso.</li>
+                        <li data-i18n="mod_work_li2">Lista de tareas priorizadas por urgencia.</li>
+                        <li data-i18n="mod_work_li3">Aceptar que los errores son parte del aprendizaje.</li>
+                        <li data-i18n="mod_work_li4">Desconectarse del trabajo al terminar el día.</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-serena" data-bs-dismiss="modal" data-i18n="btn_understood">Entendido</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalRespiracion" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-wind me-2" style="color:var(--serena-purple);"></i><span data-i18n="mod_t_breath_title">Respiración 4-7-8</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p data-i18n="mod_t_breath_p">Esta técnica calma el sistema nervioso de forma inmediata.</p>
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-2"><strong data-i18n="step_1">Paso 1:</strong> <span data-i18n="mod_t_breath_li1">Inhala por la nariz durante 4 segundos.</span></li>
+                        <li class="mb-2"><strong data-i18n="step_2">Paso 2:</strong> <span data-i18n="mod_t_breath_li2">Sostén el aire durante 7 segundos.</span></li>
+                        <li class="mb-2"><strong data-i18n="step_3">Paso 3:</strong> <span data-i18n="mod_t_breath_li3">Exhala lentamente por la boca durante 8 segundos.</span></li>
+                        <li><strong data-i18n="step_4">Paso 4:</strong> <span data-i18n="mod_t_breath_li4">Repite el ciclo 4 veces.</span></li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-serena" data-bs-dismiss="modal" data-i18n="btn_start">Comenzar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalMeditacion" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-yin-yang me-2" style="color:var(--serena-purple);"></i><span data-i18n="mod_t_med_title">Meditación de 5 minutos</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-2"><strong data-i18n="step_1">Paso 1:</strong> <span data-i18n="mod_t_med_li1">Siéntate cómodo y cierra los ojos.</span></li>
+                        <li class="mb-2"><strong data-i18n="step_2">Paso 2:</strong> <span data-i18n="mod_t_med_li2">Concéntrate en tu respiración natural.</span></li>
+                        <li class="mb-2"><strong data-i18n="step_3">Paso 3:</strong> <span data-i18n="mod_t_med_li3">Cuando llegue un pensamiento, obsérvalo y déjalo pasar.</span></li>
+                        <li class="mb-2"><strong data-i18n="step_4">Paso 4:</strong> <span data-i18n="mod_t_med_li4">Vuelve siempre tu atención a la respiración.</span></li>
+                        <li><strong data-i18n="step_5">Paso 5:</strong> <span data-i18n="mod_t_med_li5">Al terminar, abre los ojos lentamente y estírate.</span></li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-serena" data-bs-dismiss="modal" data-i18n="btn_begin">Empezar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalDiario" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-journal-text me-2" style="color:var(--serena-purple);"></i><span data-i18n="mod_t_jour_title">Diario emocional</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p data-i18n="mod_t_jour_p">La escritura libera y aclara. Responde estas preguntas hoy:</p>
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-2"><strong>1.</strong> <span data-i18n="mod_t_jour_li1">¿Cómo me siento en este momento?</span></li>
+                        <li class="mb-2"><strong>2.</strong> <span data-i18n="mod_t_jour_li2">¿Qué situación lo detonó?</span></li>
+                        <li class="mb-2"><strong>3.</strong> <span data-i18n="mod_t_jour_li3">¿Qué pensé y cómo reaccioné?</span></li>
+                        <li><strong>4.</strong> <span data-i18n="mod_t_jour_li4">¿Qué acción positiva puedo hacer ahora?</span></li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-serena" data-bs-dismiss="modal" data-i18n="btn_open_jour">Abrir diario</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalCognitiva" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-brightness-alt-high me-2" style="color:var(--serena-purple);"></i><span data-i18n="mod_t_cog_title">Reestructuración cognitiva</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p data-i18n="mod_t_cog_p">Transforma pensamientos negativos con estas preguntas:</p>
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-2"><strong data-i18n="step_1">Paso 1:</strong> <span data-i18n="mod_t_cog_li1">Identifica el pensamiento negativo.</span></li>
+                        <li class="mb-2"><strong data-i18n="step_2">Paso 2:</strong> <span data-i18n="mod_t_cog_li2">¿Qué evidencia real lo respalda?</span></li>
+                        <li class="mb-2"><strong data-i18n="step_3">Paso 3:</strong> <span data-i18n="mod_t_cog_li3">¿Qué evidencia lo contradice?</span></li>
+                        <li class="mb-2"><strong data-i18n="step_4">Paso 4:</strong> <span data-i18n="mod_t_cog_li4">¿Hay una forma más equilibrada de verlo?</span></li>
+                        <li><strong data-i18n="step_5">Paso 5:</strong> <span data-i18n="mod_t_cog_li5">Escribe el pensamiento alternativo más realista.</span></li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-serena" data-bs-dismiss="modal" data-i18n="btn_practice">Practicar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer-serena">
+        <div class="container-fluid px-4 px-md-5 py-5">
+            <div class="row g-4 align-items-start">
+
+                <div class="col-md-4">
+                    <img src="Logo.png" alt="Logo Serena" height="70" class="mb-3">
+                    <p style="color:#a89ec9;line-height:1.7;">
+                        Un espacio seguro para cuidar tu bienestar emocional. Herramientas, apoyo y acompañamiento para tu salud mental.
+                    </p>
+                </div>
+
+                <div class="col-md-2 offset-md-1">
+                    <h6 class="fw-semibold mb-3" style="color:#fff;">Explorar</h6>
+                    <ul class="list-unstyled" style="line-height:2;">
+                        <li><a href="index.html" style="color:#a89ec9;text-decoration:none;">Home</a></li>
+                        <li><a href="Serena.html" style="color:#a89ec9;text-decoration:none;">Salud Mental</a></li>
+                        <li><a href="Herramientas.html" style="color:#a89ec9;text-decoration:none;">Herramientas</a></li>
+                        <li><a href="Apoyo.html" style="color:#a89ec9;text-decoration:none;">Apoyo</a></li>
+                        <li><a href="Miespacio.html" style="color:#a89ec9;text-decoration:none;">Mi espacio</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 offset-md-1">
+                    <h6 class="fw-semibold mb-3" style="color:#fff;">Contacto</h6>
+                    <p style="color:#a89ec9;margin-bottom:8px;">
+                        <i class="bi bi-envelope me-2" style="color:#7b61ff;"></i>
+                        <a href="mailto:serenacbtis.ofi@gmail.com" style="color:#a89ec9;text-decoration:none;">serenacbtis.ofi@gmail.com</a>
+                    </p>
+                    <p style="color:#a89ec9;margin-bottom:16px;">
+                        <i class="bi bi-shield-heart me-2" style="color:#7b61ff;"></i>
+                        Tu bienestar, nuestra prioridad
+                    </p>
+                    <div class="mt-2">
+                        <p class="mb-1" style="color:#6c5f8a;font-size:0.75rem;">Visitas al sitio</p>
+                        <img src="https://serena.goatcounter.com/counter/serena.svg" 
+                             alt="Contador de visitas"
+                             style="height:24px;opacity:0.8;">
+                    </div>
+                </div>
+
+            </div>
+
+            <hr style="border-color:#2e2654;margin:2rem 0;">
+
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2 text-center">
+                <p class="mb-0" style="color:#6c5f8a;">
+                    © 2026 <span style="color:#7b61ff;font-weight:500;">Serena</span> &nbsp;·&nbsp; Tu bienestar, nuestra prioridad 💜
+                </p>
+                <p class="mb-0" style="color:#6c5f8a;">
+                    Sitio creado: 2026 &nbsp;·&nbsp; Última actualización: junio de 2026
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const currentPage = window.location.pathname.split("/").pop() || "Herramientas.html";
+            document.querySelectorAll(".nav-btn-dynamic").forEach(link => {
+                const href = link.getAttribute("href");
+                if (href === currentPage) {
+                    link.classList.add("nav-pill-active");
+                } else {
+                    link.classList.remove("nav-pill-active");
+                }
+            });
+        });
+    </script>
+
+<button class="help-bubble-btn" id="helpToggle" aria-label="Abrir centro de ayuda">
+    <i class="bi bi-question-lg"></i>
+</button>
+
+<div class="help-panel" id="helpPanel">
+    <div class="help-panel-header">
+        <h6 data-i18n="help_title">🌿 Centro de Ayuda</h6>
+        <p data-i18n="help_subtitle">Toca una pregunta para ver la respuesta</p>
+    </div>
+    <div class="help-panel-body">
+        <button class="help-item" onclick="toggleAnswer(this)">
+            <span><i class="bi bi-heart-pulse me-2"></i><span data-i18n="help_q1">¿Qué es Serena?</span></span>
+            <i class="bi bi-chevron-down"></i>
+        </button>
+        <div class="help-answer" data-i18n="help_a1">
+            Serena es un espacio de bienestar emocional con información confiable, ejercicios guiados y recursos de salud mental para acompañarte en tu día a día.
+        </div>
+
+        <button class="help-item" onclick="toggleAnswer(this)">
+            <span><i class="bi bi-flower1 me-2"></i><span data-i18n="help_q2">¿Qué hay en Herramientas?</span></span>
+            <i class="bi bi-chevron-down"></i>
+        </button>
+        <div class="help-answer" data-i18n="help_a2">
+            Encontrarás ejercicios de respiración, meditaciones guiadas, un diario emocional y técnicas cognitivas. También puedes descargar guías en PDF.
+        </div>
+
+        <button class="help-item" onclick="toggleAnswer(this)">
+            <span><i class="bi bi-telephone me-2"></i><span data-i18n="help_q3">¿Cómo pido ayuda urgente?</span></span>
+            <i class="bi bi-chevron-down"></i>
+        </button>
+        <div class="help-answer" data-i18n="help_a3">
+            Ve a la sección <strong>Apoyo</strong> en el menú. Ahí encontrarás números de crisis, líneas de escucha y directorio de profesionales de salud mental.
+        </div>
+    </div>
+    <div class="help-panel-footer">
+        <a href="Apoyo.html" class="help-footer-btn">
+            <i class="bi bi-chat-heart me-1"></i> <span data-i18n="help_btn">Buscar apoyo ahora</span>
+        </a>
+    </div>
+</div>
+
+<script data-goatcounter="https://serena.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+<script src="fuente.js"></script>
+<script src="burbuja.js"></script>
+
+</body>
+</html>
