@@ -978,7 +978,8 @@ function applyLanguage(lang) {
     document.querySelectorAll("[data-i18n]").forEach(el => {
         const key = el.getAttribute("data-i18n");
         if (translations[lang] && translations[lang][key]) {
-            el.textContent = translations[lang][key];
+            // CAMBIO AQUÍ: de textContent a innerHTML
+            el.innerHTML = translations[lang][key];
         }
     });
 }
