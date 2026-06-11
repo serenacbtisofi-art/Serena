@@ -404,3 +404,11 @@ body {
     background-color: var(--serena-purple-dark); color: white;
 }
 
+span[data-goatcounter-endpoint] {
+    background-color: var(--serena-purple);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-family: 'Arial', sans-serif;
+}
