@@ -667,7 +667,7 @@
     </div>
 
     <div class="modal fade" id="modalDiario" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title fw-bold"><i class="bi bi-journal-text me-2" style="color:var(--serena-purple);"></i><span data-i18n="mod_t_jour_title">Diario emocional</span></h5>
@@ -675,15 +675,19 @@
                 </div>
                 <div class="modal-body">
                     <p data-i18n="mod_t_jour_p">La escritura libera y aclara. Responde estas preguntas hoy:</p>
-                    <ul class="list-unstyled mb-0">
+                    <ul class="list-unstyled mb-3">
                         <li class="mb-2"><strong>1.</strong> <span data-i18n="mod_t_jour_li1">¿Cómo me siento en este momento?</span></li>
                         <li class="mb-2"><strong>2.</strong> <span data-i18n="mod_t_jour_li2">¿Qué situación lo detonó?</span></li>
                         <li class="mb-2"><strong>3.</strong> <span data-i18n="mod_t_jour_li3">¿Qué pensé y cómo reaccioné?</span></li>
                         <li><strong>4.</strong> <span data-i18n="mod_t_jour_li4">¿Qué acción positiva puedo hacer ahora?</span></li>
                     </ul>
+                    <textarea id="diarioTexto" class="form-control" rows="10" data-i18n-placeholder="mod_t_jour_placeholder" placeholder="Escribe aquí tus pensamientos..." style="resize: vertical;"></textarea>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-serena" data-bs-dismiss="modal" data-i18n="btn_open_jour">Abrir diario</button>
+                    <button class="btn btn-outline-secondary" id="btnDescargarDiario">
+                        <i class="bi bi-download me-1"></i> <span data-i18n="btn_download_jour">Descargar como PDF</span>
+                    </button>
+                    <button class="btn btn-serena" data-bs-dismiss="modal" data-i18n="btn_close_jour">Cerrar</button>
                 </div>
             </div>
         </div>
@@ -737,10 +741,12 @@
 
                 <div class="col-md-4 offset-md-1">
                     <h6 class="fw-semibold mb-3" style="color:#fff;">Contacto</h6>
-                    <p style="color:#a89ec9;margin-bottom:8px;">
-                        <i class="bi bi-envelope me-2" style="color:#7b61ff;"></i>
-                        <a href="mailto:serenacbtis.ofi@gmail.com" style="color:#a89ec9;text-decoration:none;">serenacbtis.ofi@gmail.com</a>
-                    </p>
+                    <p style="color: #a89ec9; margin-bottom: 8px;">
+    <i class="bi bi-envelope me-2" style="color: #7b61ff;"></i>
+    <a href="mailto:serenacbtis.ofi@gmail.com" style="color: #a89ec9; text-decoration: none;">serenacbtis.ofi@gmail.com</a>
+    <br>
+    <br> <a href="mailto:serenacbtis.ofi@gmail.com" style="color: #a89ec9; text-decoration: none;">Responsables del sitio: Oficinistas</a>
+</p>
                     <p style="color:#a89ec9;margin-bottom:16px;">
                         <i class="bi bi-shield-heart me-2" style="color:#7b61ff;"></i>
                         Tu bienestar, nuestra prioridad
@@ -762,12 +768,13 @@
                     © 2026 <span style="color:#7b61ff;font-weight:500;">Serena</span> &nbsp;·&nbsp; Tu bienestar, nuestra prioridad 💜
                 </p>
                 <p class="mb-0" style="color:#6c5f8a;">
-                    Sitio creado: 2026 &nbsp;·&nbsp; Última actualización: junio de 2026
+                    Sitio creado: Abril 2026 &nbsp;·&nbsp; Última actualización: junio de 2026
                 </p>
             </div>
         </div>
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -780,6 +787,37 @@
                     link.classList.remove("nav-pill-active");
                 }
             });
+        });
+
+        document.getElementById('btnDescargarDiario').addEventListener('click', function () {
+            const texto = document.getElementById('diarioTexto').value;
+
+            if (!texto.trim()) {
+                alert('Escribe algo antes de descargar tu diario.');
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            const fecha = new Date().toLocaleDateString('es-ES', {
+                year: 'numeric', month: 'long', day: 'numeric'
+            });
+
+            doc.setFontSize(16);
+            doc.text('Diario Emocional', 14, 20);
+
+            doc.setFontSize(11);
+            doc.setTextColor(100);
+            doc.text(fecha, 14, 28);
+
+            doc.setFontSize(12);
+            doc.setTextColor(0);
+
+            const lineas = doc.splitTextToSize(texto, 180);
+            doc.text(lineas, 14, 40);
+
+            doc.save(`diario_${Date.now()}.pdf`);
         });
     </script>
 
